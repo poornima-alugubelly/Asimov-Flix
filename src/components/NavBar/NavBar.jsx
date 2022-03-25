@@ -7,9 +7,9 @@ export const NavBar = () => {
 	const { auth, setAuth } = useAuth();
 
 	const logoutHandler = () => {
-		localStorage.removeItem("token");
-		localStorage.removeItem("isAuth");
-		setAuth({ token: "", isAuth: false });
+		localStorage.removeItem("tokenVL");
+		localStorage.removeItem("isAuthVL");
+		setAuth({ tokenVL: "", isAuthVL: false });
 		navigate("/explore");
 	};
 
@@ -38,7 +38,7 @@ export const NavBar = () => {
 			</div>
 
 			<ul className="nav-bar-secondary">
-				{auth.isAuth ? (
+				{auth.isAuthVL ? (
 					<div onClick={logoutHandler}>
 						<Link to="/login" className="flex-column ">
 							<i class="fas fa-user btn-icon"></i>

@@ -13,12 +13,16 @@ export const Login = () => {
 	const loginHandler = async (e, email, password) => {
 		setFormVal({ email, password });
 		e.preventDefault();
-		const token = await loginService(email, password);
-		if (token) {
-			localStorage.setItem("token", token);
-			localStorage.setItem("isAuth", true);
-			setAuth({ token, isAuth: true });
-			navigate("/home");
+		try {
+			const res = await loginService(email, password);
+			if (res.status === 200) {
+				localStorage.setItem("tokenVL", res.data.token);
+				localStorage.setItem("isAuthVL", true);
+				setAuth({ tokenVL: res.data.token, isAuthVL: true });
+				navigate("/explore");
+			}
+		} catch (err) {
+			console.log("err", err);
 		}
 	};
 
@@ -91,7 +95,7 @@ export const Login = () => {
 					<button
 						class="btn btn-primary-outline"
 						onClick={(e) =>
-							loginHandler(e, "adarshbalak@gmail.com", "adarshBalaki123")
+							loginHandler(e, "adarshbalika@gmail.com", "adarshBalika123")
 						}
 					>
 						Login with test credentials
