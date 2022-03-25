@@ -1,8 +1,10 @@
 import { Route, Routes } from "react-router-dom";
-import { Playlists } from "../Pages/Playlists/Playlists";
-import { Explore } from "../Pages/Explore/Explore";
-import { SinglePlaylist } from "../Pages/SinglePlaylist/SinglePlaylist";
-import { SingleVideo } from "../Pages/SingleVideo/SingleVideo";
+import { Playlists } from "../pages/Playlists/Playlists";
+import { Explore } from "../pages/Explore/Explore";
+import { SinglePlaylist } from "../pages/SinglePlaylist/SinglePlaylist";
+import { SingleVideo } from "../pages/SingleVideo/SingleVideo";
+import { Login } from "../pages/Auth/Login/Login";
+import { Signup } from "../pages/Auth/Signup/Signup";
 export const NavRoutes = () => {
 	return (
 		<Routes>
@@ -11,6 +13,8 @@ export const NavRoutes = () => {
 			<Route path="/playlists" element={<Playlists />} />
 			<Route path="/singlePlaylist" element={<SinglePlaylist />} />
 			<Route path="/singleVideo" element={<SingleVideo />} />
+			<Route path="/login" element={<Login />} />
+			<Route path="/signup" element={<Signup />} />
 		</Routes>
 	);
 };
