@@ -1,0 +1,39 @@
+.playlist-modal-body {
+	border: 1px var(--shadow-color);
+	border-style: solid none;
+}
+
+.playlist-modal {
+	width: 20rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	padding: 1rem;
+}
+
+.playlist-modal-body {
+	overflow-y: auto;
+	max-height: 10rem;
+}
+
+.playlist-modal-item {
+	display: flex;
+
+	align-items: center;
+	white-space: normal;
+	overflow-wrap: break-word;
+	padding: 5px;
+}
+
+.overlay {
+	position: fixed;
+
+	transition: 200ms ease-in-out;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: var(--dark-blue);
+	pointer-events: all;
+	z-index: 4;
+}

@@ -1,0 +1,10 @@
+.video-title {
+	overflow: hidden;
+	max-width: 20ch;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.video-content {
+	display: flex;
+}
