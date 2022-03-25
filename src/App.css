@@ -1,1 +1,39 @@
 @import url(https://asimov-ui.netlify.app/themes/darktheme.css);
+
+.main-container {
+	display: grid;
+	grid-template-columns: min-content 1fr;
+	place-content: center;
+}
+.grid-autofill-layout {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+	gap: 2rem;
+	margin: 3rem;
+	grid-template-rows: min-content;
+}
+
+.grid-autofill-layout .card {
+	justify-self: center;
+	height: min-content;
+	cursor: pointer;
+}
+
+.grid-autofill-layout .card img {
+	object-fit: contain;
+}
+
+.grid-40-60-layout {
+	display: grid;
+	grid-template-columns: 40% 60%;
+}
+
+@media (max-width: 1024px) {
+	.main-container {
+		grid-template-columns: 1fr;
+		padding: 4rem;
+	}
+	.grid-autofill-layout {
+		margin: 0;
+	}
+}

@@ -1,0 +1,41 @@
+.aside-nav {
+	border-right: 1px solid var(--primary-color);
+	width: 10vw;
+	height: 95vh;
+	z-index: 2;
+	position: sticky;
+	top: 0;
+	left: 0;
+
+	overflow-y: auto;
+}
+
+.aside-nav .flex-center {
+	gap: 0;
+}
+
+.aside-items {
+	display: flex;
+	flex-direction: column;
+}
+
+@media (max-width: 1024px) {
+	.aside-nav {
+		bottom: 0;
+		height: min-content;
+		width: 100%;
+		top: auto;
+		position: fixed;
+		box-shadow: 0 -5px 5px -5px #333;
+		z-index: 3;
+		background-color: var(--bg-color);
+		border-right: none;
+	}
+	.aside-items {
+		flex-direction: row;
+		justify-content: space-around;
+	}
+	.aside-items > li {
+		padding: 1rem 0rem;
+	}
+}
