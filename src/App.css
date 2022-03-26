@@ -17,6 +17,7 @@
 	justify-self: center;
 	height: min-content;
 	cursor: pointer;
+	position: relative;
 }
 
 .grid-autofill-layout .card img {
@@ -26,6 +27,19 @@
 .grid-40-60-layout {
 	display: grid;
 	grid-template-columns: 40% 60%;
+}
+
+.video-option-container {
+	position: absolute;
+	top: 50%;
+	left: 35%;
+
+	background-color: var(--bg-color);
+	box-shadow: #222 0px 2px 5px -1px, #222 0px 1px 3px -1px;
+}
+
+.video-option-container .flex-row {
+	align-items: center;
 }
 
 @media (max-width: 1024px) {

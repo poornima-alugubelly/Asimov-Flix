@@ -25,9 +25,14 @@
 	width: 100%;
 }
 
+.video-description .flex-column {
+	align-items: center;
+}
+
 .creator {
 	border: 1px var(--shadow-color);
 	border-style: solid none;
+	align-items: center;
 }
 
 @media (max-width: 1024px) {

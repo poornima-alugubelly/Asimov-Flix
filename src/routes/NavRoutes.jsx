@@ -5,6 +5,8 @@ import { SinglePlaylist } from "../pages/SinglePlaylist/SinglePlaylist";
 import { SingleVideo } from "../pages/SingleVideo/SingleVideo";
 import { Login } from "../pages/Auth/Login/Login";
 import { Signup } from "../pages/Auth/Signup/Signup";
+import { LikesPlaylist } from "../pages/SinglePlaylist/LikesPlaylist";
+import { ProtectedRoutes } from "./ProtectedRoutes";
 export const NavRoutes = () => {
 	return (
 		<Routes>
@@ -12,7 +14,12 @@ export const NavRoutes = () => {
 			<Route path="/explore" element={<Explore />} />
 			<Route path="/playlists" element={<Playlists />} />
 			<Route path="/singlePlaylist" element={<SinglePlaylist />} />
-			<Route path="/singleVideo" element={<SingleVideo />} />
+
+			<Route path="explore/:videoId" element={<SingleVideo />} />
+			<Route path="/" element={<ProtectedRoutes />}>
+				<Route path="/likes" element={<LikesPlaylist />} />
+			</Route>
+
 			<Route path="/login" element={<Login />} />
 			<Route path="/signup" element={<Signup />} />
 		</Routes>

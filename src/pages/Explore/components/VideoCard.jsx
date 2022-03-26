@@ -2,26 +2,83 @@ import "./VideoCard.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { PlaylistModal } from "../../../components/PlaylistModal/PlaylistModal";
+import { useUserData } from "../../../context/UserDataContext";
+import { checkInPlaylist } from "../../../helpers/checkInPlaylist";
+import { usePlaylistUpdater } from "../../../hooks/usePlaylistUpdater";
+import {
+	addToLikesService,
+	removeLikesService,
+} from "../../../services/likes-services";
+import { useAuth } from "../../../context/AuthContext";
+
 export const VideoCard = ({ video }) => {
 	const navigate = useNavigate();
-	const [opened, setOpened] = useState(false);
+	const { userData } = useUserData();
+	const [openedModal, setOpenedModal] = useState(false);
+	const [openOptions, setOpenOptions] = useState(false);
+	const { likesPlaylist } = userData;
+	const inLikedVideos = checkInPlaylist(video, likesPlaylist);
+	const [addToLikesServerCall] = usePlaylistUpdater(addToLikesService, video);
+	const [removeFromLikesServerCall] = usePlaylistUpdater(
+		removeLikesService,
+		video
+	);
+	const likeHandler = () =>
+		inLikedVideos ? removeFromLikesServerCall() : addToLikesServerCall();
+	const { auth } = useAuth();
 	return (
-		<div className="card flex-column">
-			<PlaylistModal val={opened} setOpened={setOpened} />
-			<div className="img-container" onClick={() => navigate("/singleVideo")}>
-				<img src={video.thumbnail} className="img-responsive" />
-			</div>
-			<div className="video-content gap-s padding-tp-btm-xs ">
-				<div class="avatar avatar-xs">
-					<img class="avatar-round" src={video.creatorProfile} alt="Avatar" />
+		<>
+			<div className="card flex-column ">
+				<PlaylistModal val={openedModal} setOpened={setOpenedModal} />
+				<div
+					className="img-container"
+					onClick={() => navigate(`/explore/${video.id}`)}
+				>
+					<img src={video.thumbnail} className="img-responsive" />
 				</div>
-				<div className="flex-column">
-					<strong class="video-title">{video.title} </strong>
-					<span className="text-xxs">{video.creator}</span>
-					<span className="text-xxs">{video.views} views</span>
+				<div className="video-content gap-s ">
+					<div class="avatar avatar-xs">
+						<img class="avatar-round" src={video.creatorProfile} alt="Avatar" />
+					</div>
+					<div className="flex-column gap-xs">
+						<strong class="video-title">{video.title} </strong>
+						<div className="flex-column">
+							<span className="text-xxs">{video.views} views</span>
+							<span className="text-xxs">{video.creator}</span>
+						</div>
+					</div>
+					<i
+						class="fas fa-ellipsis-v"
+						onClick={() => setOpenOptions(!openOptions)}
+					></i>
 				</div>
-				<i class="fas fa-ellipsis-v" onClick={() => setOpened(true)}></i>
+				{openOptions && (
+					<ul className="video-option-container">
+						<li
+							class="list-item flex-row gap-xs"
+							onClick={
+								auth.isAuthVL ? () => likeHandler() : () => navigate("/login")
+							}
+						>
+							{inLikedVideos ? (
+								<i class="far fa-check-circle"></i>
+							) : (
+								<i class="fas fa-plus"></i>
+							)}
+							Liked Videos
+						</li>
+						<li class="list-item flex-row gap-xs">
+							<i class="fas fa-plus"></i> Watch Later
+						</li>
+						<li
+							class="list-item flex-row gap-xs"
+							onClick={() => setOpenedModal(true)}
+						>
+							<i class="fas fa-plus"></i> other playlist
+						</li>
+					</ul>
+				)}
 			</div>
-		</div>
+		</>
 	);
 };

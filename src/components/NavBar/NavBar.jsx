@@ -33,7 +33,7 @@ export const NavBar = () => {
 			<div className="search-bar input">
 				<input type="text" placeholder="type to search..." />
 				<button>
-					<img className="icon-search" src="assets/Search.svg" alt="search" />
+					<img className="icon-search" src="/assets/Search.svg" alt="search" />
 				</button>
 			</div>
 
