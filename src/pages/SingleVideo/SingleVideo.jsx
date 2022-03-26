@@ -9,6 +9,8 @@ import { usePlaylistUpdater } from "../../hooks/usePlaylistUpdater";
 import { checkInPlaylist } from "../../helpers/checkInPlaylist";
 import { useUserData } from "../../context/UserDataContext";
 import { removeLikesService } from "../../services/likes-services";
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 export const SingleVideo = () => {
 	const { videoListingState } = useVideoListing();
 	const { data } = videoListingState;
@@ -19,13 +21,18 @@ export const SingleVideo = () => {
 	const { userData } = useUserData();
 	const { likesPlaylist } = userData;
 	const inLikedVideos = checkInPlaylist(video, likesPlaylist);
-	const [addToLikesServerCall] = usePlaylistUpdater(addToLikesService, video);
-	const [removeFromLikesServerCall] = usePlaylistUpdater(
+	const [addToLikesServerCall, adding] = usePlaylistUpdater(
+		addToLikesService,
+		video
+	);
+	const { auth } = useAuth();
+	const [removeFromLikesServerCall, removing] = usePlaylistUpdater(
 		removeLikesService,
 		video
 	);
 	const likeHandler = () =>
 		inLikedVideos ? removeFromLikesServerCall() : addToLikesServerCall();
+	const navigate = useNavigate();
 	return (
 		<div className="main-container">
 			<AsideNav />
@@ -46,11 +53,18 @@ export const SingleVideo = () => {
 						<h2>{video?.title}</h2>
 						<span>{video?.views} • views</span>
 						<div className="flex-row gap-l padding-tp-btm-s">
-							<div className="flex-column" onClick={() => likeHandler()}>
+							<div
+								className="flex-column"
+								onClick={
+									auth.isAuthVL ? () => likeHandler() : () => navigate("/login")
+								}
+							>
 								<i
 									class={`${
 										inLikedVideos ? "fas" : "far"
-									}  fa-thumbs-up btn-icon`}
+									}  fa-thumbs-up btn-icon  ${
+										adding || removing ? "btn-disabled" : ""
+									}  `}
 								></i>
 								<span>Like</span>
 							</div>

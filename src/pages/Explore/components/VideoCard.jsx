@@ -9,6 +9,7 @@ import {
 	addToLikesService,
 	removeLikesService,
 } from "../../../services/likes-services";
+import { useAuth } from "../../../context/AuthContext";
 
 export const VideoCard = ({ video }) => {
 	const navigate = useNavigate();
@@ -24,6 +25,7 @@ export const VideoCard = ({ video }) => {
 	);
 	const likeHandler = () =>
 		inLikedVideos ? removeFromLikesServerCall() : addToLikesServerCall();
+	const { auth } = useAuth();
 	return (
 		<>
 			<div className="card flex-column ">
@@ -52,7 +54,12 @@ export const VideoCard = ({ video }) => {
 				</div>
 				{openOptions && (
 					<ul className="video-option-container">
-						<li class="list-item flex-row gap-xs" onClick={() => likeHandler()}>
+						<li
+							class="list-item flex-row gap-xs"
+							onClick={
+								auth.isAuthVL ? () => likeHandler() : () => navigate("/login")
+							}
+						>
 							{inLikedVideos ? (
 								<i class="far fa-check-circle"></i>
 							) : (
