@@ -10,22 +10,46 @@ import {
 	removeLikesService,
 } from "../../../services/likes-services";
 import { useAuth } from "../../../context/AuthContext";
+import { actionTypes } from "../../../reducers/actionTypes";
+import {
+	addToWatchLaterService,
+	removeWatchLaterService,
+} from "../../../services/watchlist-services";
 
 export const VideoCard = ({ video }) => {
 	const navigate = useNavigate();
 	const { userData } = useUserData();
 	const [openedModal, setOpenedModal] = useState(false);
 	const [openOptions, setOpenOptions] = useState(false);
-	const { likesPlaylist } = userData;
-	const inLikedVideos = checkInPlaylist(video, likesPlaylist);
-	const [addToLikesServerCall] = usePlaylistUpdater(addToLikesService, video);
+	const { SET_LIKES, SET_WATCHLATER } = actionTypes;
+	const { likesPlaylist, watchLaterPlaylist } = userData;
+	const inLikedPlaylist = checkInPlaylist(video, likesPlaylist);
+	const inWatchLaterPlaylist = checkInPlaylist(video, watchLaterPlaylist);
+	const [addToLikesServerCall] = usePlaylistUpdater(
+		addToLikesService,
+		video,
+		SET_LIKES
+	);
 	const [removeFromLikesServerCall] = usePlaylistUpdater(
 		removeLikesService,
-		video
+		video,
+		SET_LIKES
 	);
+
+	const [addToWatchLaterServerCall, addingToWatchLater] = usePlaylistUpdater(
+		addToWatchLaterService,
+		video,
+		SET_WATCHLATER
+	);
+	const [removeFromWatchLaterServerCall, removingFromWatchLater] =
+		usePlaylistUpdater(removeWatchLaterService, video, SET_WATCHLATER);
 	const likeHandler = () =>
-		inLikedVideos ? removeFromLikesServerCall() : addToLikesServerCall();
+		inLikedPlaylist ? removeFromLikesServerCall() : addToLikesServerCall();
 	const { auth } = useAuth();
+	const watchLaterHandler = () =>
+		inWatchLaterPlaylist
+			? removeFromWatchLaterServerCall()
+			: addToWatchLaterServerCall();
 	return (
 		<>
 			<div className="card flex-column ">
@@ -60,15 +84,27 @@ export const VideoCard = ({ video }) => {
 								auth.isAuthVL ? () => likeHandler() : () => navigate("/login")
 							}
 						>
-							{inLikedVideos ? (
+							{inLikedPlaylist ? (
 								<i class="far fa-check-circle"></i>
 							) : (
 								<i class="fas fa-plus"></i>
 							)}
 							Liked Videos
 						</li>
-						<li class="list-item flex-row gap-xs">
-							<i class="fas fa-plus"></i> Watch Later
+						<li
+							class="list-item flex-row gap-xs"
+							onClick={
+								auth.isAuthVL
+									? () => watchLaterHandler()
+									: () => navigate("/login")
+							}
+						>
+							{inWatchLaterPlaylist ? (
+								<i class="far fa-check-circle"></i>
+							) : (
+								<i class="fas fa-plus"></i>
+							)}
+							Watch Later
 						</li>
 						<li
 							class="list-item flex-row gap-xs"
