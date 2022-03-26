@@ -2,9 +2,30 @@ import { AsideNav } from "../../components/AsideNav/AsideNav";
 import "./SingleVideo.css";
 import { PlaylistModal } from "../../components/PlaylistModal/PlaylistModal";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { useVideoListing } from "../../context/VideosListingContext";
+import { addToLikesService } from "../../services/likes-services";
+import { usePlaylistUpdater } from "../../hooks/usePlaylistUpdater";
+import { checkInPlaylist } from "../../helpers/checkInPlaylist";
+import { useUserData } from "../../context/UserDataContext";
+import { removeLikesService } from "../../services/likes-services";
 export const SingleVideo = () => {
+	const { videoListingState } = useVideoListing();
+	const { data } = videoListingState;
 	const [opened, setOpened] = useState(false);
-
+	const params = useParams();
+	const videoId = params.videoId;
+	const video = data?.find((video) => video.id === videoId);
+	const { userData } = useUserData();
+	const { likesPlaylist } = userData;
+	const inLikedVideos = checkInPlaylist(video, likesPlaylist);
+	const [addToLikesServerCall] = usePlaylistUpdater(addToLikesService, video);
+	const [removeFromLikesServerCall] = usePlaylistUpdater(
+		removeLikesService,
+		video
+	);
+	const likeHandler = () =>
+		inLikedVideos ? removeFromLikesServerCall() : addToLikesServerCall();
 	return (
 		<div className="main-container">
 			<AsideNav />
@@ -13,7 +34,7 @@ export const SingleVideo = () => {
 				<div>
 					<iframe
 						width="100%"
-						src="https://www.youtube.com/embed/niyCe6ajm48?list=RDniyCe6ajm48"
+						src={video?.src}
 						title="YouTube video player"
 						frameborder="0"
 						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -22,18 +43,39 @@ export const SingleVideo = () => {
 						className="video-player"
 					></iframe>
 					<div className="video-description">
-						<h2>High Hopes - AMV [Oni-Con XV 2018 Anime Action Finalist]</h2>
-						<span>1232354 • views</span>
+						<h2>{video?.title}</h2>
+						<span>{video?.views} • views</span>
 						<div className="flex-row gap-l padding-tp-btm-s">
-							<i class="far fa-thumbs-up btn-icon"></i>
-							<i class="far fa-thumbs-down btn-icon"></i>
-							<i
-								class="fas fa-folder-plus btn-icon"
-								onClick={() => setOpened(true)}
-							></i>
-							<i class="far fa-bookmark btn-icon"></i>
+							<div className="flex-column" onClick={() => likeHandler()}>
+								<i
+									class={`${
+										inLikedVideos ? "fas" : "far"
+									}  fa-thumbs-up btn-icon`}
+								></i>
+								<span>Like</span>
+							</div>
+							<div className="flex-column">
+								<i
+									class="fas fa-folder-plus btn-icon"
+									onClick={() => setOpened(true)}
+								></i>
+								<span>Save</span>
+							</div>
+							<div className="flex-column">
+								<i class="far fa-bookmark btn-icon"></i>
+								<span>Watch Later</span>
+							</div>
 						</div>
-						<div className="creator padding-xs text-s">Creator</div>
+						<div className="creator padding-xs flex-row gap-xs ">
+							<div class="avatar avatar-xs">
+								<img
+									class="avatar-round"
+									src={video?.creatorProfile}
+									alt="Avatar"
+								/>
+							</div>
+							<div className=" text-s">{video?.creator}</div>
+						</div>
 					</div>
 				</div>
 

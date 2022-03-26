@@ -16,9 +16,10 @@ export const Login = () => {
 		try {
 			const res = await loginService(email, password);
 			if (res.status === 200) {
-				localStorage.setItem("tokenVL", res.data.token);
+				localStorage.setItem("tokenVL", res.data.encodedToken);
 				localStorage.setItem("isAuthVL", true);
-				setAuth({ tokenVL: res.data.token, isAuthVL: true });
+
+				setAuth({ tokenVL: res.data.encodedToken, isAuthVL: true });
 				navigate("/explore");
 			}
 		} catch (err) {

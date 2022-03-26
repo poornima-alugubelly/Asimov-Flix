@@ -3,8 +3,7 @@ import "./PlaylistModal.css";
 export const PlaylistModal = ({ val, setOpened }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [adding, setAdding] = useState(false);
-	console.log("in modal", val);
-	console.log(isOpen, "open");
+
 	useEffect(() => setIsOpen(val));
 	const items = ["Watch Later ", "Watch Later", "Watch Later"];
 	return (
