@@ -18,11 +18,12 @@ import {
 
 export const VideoCard = ({ video }) => {
 	const navigate = useNavigate();
-	const { userData } = useUserData();
+	const {
+		userData: { likesPlaylist, watchLaterPlaylist },
+	} = useUserData();
 	const [openedModal, setOpenedModal] = useState(false);
 	const [openOptions, setOpenOptions] = useState(false);
 	const { SET_LIKES, SET_WATCHLATER } = actionTypes;
-	const { likesPlaylist, watchLaterPlaylist } = userData;
 	const inLikedPlaylist = checkInPlaylist(video, likesPlaylist);
 	const inWatchLaterPlaylist = checkInPlaylist(video, watchLaterPlaylist);
 	const [addToLikesServerCall] = usePlaylistUpdater(

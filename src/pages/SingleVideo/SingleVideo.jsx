@@ -17,16 +17,19 @@ import {
 } from "../../services/watchlist-services";
 import { actionTypes } from "../../reducers/actionTypes";
 export const SingleVideo = () => {
-	const { videoListingState } = useVideoListing();
-	const { data } = videoListingState;
+	const {
+		videoListingState: { data },
+	} = useVideoListing();
 	const [opened, setOpened] = useState(false);
 	const { SET_LIKES, SET_WATCHLATER } = actionTypes;
-	const params = useParams();
-	const videoId = params.videoId;
+	const { videoId } = useParams();
 	const video = data?.find((video) => video.id === videoId);
-	const { userData } = useUserData();
-	const { likesPlaylist, watchLaterPlaylist } = userData;
-	const { auth } = useAuth();
+	const {
+		userData: { likesPlaylist, watchLaterPlaylist },
+	} = useUserData();
+	const {
+		auth: { isAuthVL },
+	} = useAuth();
 	const inLikedPlaylist = checkInPlaylist(video, likesPlaylist);
 	const inWatchLaterPlaylist = checkInPlaylist(video, watchLaterPlaylist);
 
@@ -57,10 +60,11 @@ export const SingleVideo = () => {
 			? removeFromWatchLaterServerCall()
 			: addToWatchLaterServerCall();
 	const navigate = useNavigate();
+
 	return (
 		<div className="main-container">
 			<AsideNav />
-			<PlaylistModal val={opened} setOpened={setOpened} />
+
 			<div className="grid-70-30">
 				<div>
 					<iframe
@@ -80,7 +84,7 @@ export const SingleVideo = () => {
 							<div
 								className="flex-column"
 								onClick={
-									auth.isAuthVL ? () => likeHandler() : () => navigate("/login")
+									isAuthVL ? () => likeHandler() : () => navigate("/login")
 								}
 							>
 								<i
@@ -102,7 +106,7 @@ export const SingleVideo = () => {
 							<div
 								className="flex-column"
 								onClick={
-									auth.isAuthVL
+									isAuthVL
 										? () => watchLaterHandler()
 										: () => navigate("/login")
 								}
@@ -119,6 +123,7 @@ export const SingleVideo = () => {
 
 								<span>Watch Later</span>
 							</div>
+							<PlaylistModal val={opened} setOpened={setOpened} />
 						</div>
 						<div className="creator padding-xs flex-row gap-xs ">
 							<div class="avatar avatar-xs">
