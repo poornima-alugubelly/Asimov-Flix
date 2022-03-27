@@ -1,7 +1,7 @@
 import { AsideNav } from "../../components/AsideNav/AsideNav";
 import { PlaylistVideo } from "./components/PlaylistVideo";
 import { useUserData } from "../../context/UserDataContext";
-export const LikesPlaylist = () => {
+export const WatchLaterPlaylist = () => {
 	const { userData } = useUserData();
 
 	return (
@@ -9,9 +9,9 @@ export const LikesPlaylist = () => {
 			<AsideNav />
 
 			<div className="padding-l">
-				<h2>Likes Videos</h2>
+				<h2>Saved Videos</h2>
 				<div>
-					{userData.likesPlaylist.map((video) => (
+					{userData.watchLaterPlaylist.map((video) => (
 						<PlaylistVideo video={video} />
 					))}
 				</div>

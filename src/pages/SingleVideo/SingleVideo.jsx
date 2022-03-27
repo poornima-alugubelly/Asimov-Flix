@@ -11,32 +11,60 @@ import { useUserData } from "../../context/UserDataContext";
 import { removeLikesService } from "../../services/likes-services";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import {
+	addToWatchLaterService,
+	removeWatchLaterService,
+} from "../../services/watchlist-services";
+import { actionTypes } from "../../reducers/actionTypes";
 export const SingleVideo = () => {
-	const { videoListingState } = useVideoListing();
-	const { data } = videoListingState;
+	const {
+		videoListingState: { data },
+	} = useVideoListing();
 	const [opened, setOpened] = useState(false);
-	const params = useParams();
-	const videoId = params.videoId;
+	const { SET_LIKES, SET_WATCHLATER } = actionTypes;
+	const { videoId } = useParams();
 	const video = data?.find((video) => video.id === videoId);
-	const { userData } = useUserData();
-	const { likesPlaylist } = userData;
-	const inLikedVideos = checkInPlaylist(video, likesPlaylist);
-	const [addToLikesServerCall, adding] = usePlaylistUpdater(
+	const {
+		userData: { likesPlaylist, watchLaterPlaylist },
+	} = useUserData();
+	const {
+		auth: { isAuthVL },
+	} = useAuth();
+	const inLikedPlaylist = checkInPlaylist(video, likesPlaylist);
+	const inWatchLaterPlaylist = checkInPlaylist(video, watchLaterPlaylist);
+
+	const [addToLikesServerCall, addingToLikes] = usePlaylistUpdater(
 		addToLikesService,
-		video
+		video,
+		SET_LIKES
 	);
-	const { auth } = useAuth();
-	const [removeFromLikesServerCall, removing] = usePlaylistUpdater(
+
+	const [removeFromLikesServerCall, removingFromLikes] = usePlaylistUpdater(
 		removeLikesService,
-		video
+		video,
+		SET_LIKES
 	);
+
+	const [addToWatchLaterServerCall, addingToWatchLater] = usePlaylistUpdater(
+		addToWatchLaterService,
+		video,
+		SET_WATCHLATER
+	);
+	const [removeFromWatchLaterServerCall, removingFromWatchLater] =
+		usePlaylistUpdater(removeWatchLaterService, video, SET_WATCHLATER);
+
 	const likeHandler = () =>
-		inLikedVideos ? removeFromLikesServerCall() : addToLikesServerCall();
+		inLikedPlaylist ? removeFromLikesServerCall() : addToLikesServerCall();
+	const watchLaterHandler = () =>
+		inWatchLaterPlaylist
+			? removeFromWatchLaterServerCall()
+			: addToWatchLaterServerCall();
 	const navigate = useNavigate();
+
 	return (
 		<div className="main-container">
 			<AsideNav />
-			<PlaylistModal val={opened} setOpened={setOpened} />
+
 			<div className="grid-70-30">
 				<div>
 					<iframe
@@ -56,14 +84,14 @@ export const SingleVideo = () => {
 							<div
 								className="flex-column"
 								onClick={
-									auth.isAuthVL ? () => likeHandler() : () => navigate("/login")
+									isAuthVL ? () => likeHandler() : () => navigate("/login")
 								}
 							>
 								<i
 									class={`${
-										inLikedVideos ? "fas" : "far"
+										inLikedPlaylist ? "fas" : "far"
 									}  fa-thumbs-up btn-icon  ${
-										adding || removing ? "btn-disabled" : ""
+										addingToLikes || removingFromLikes ? "btn-disabled" : ""
 									}  `}
 								></i>
 								<span>Like</span>
@@ -75,10 +103,27 @@ export const SingleVideo = () => {
 								></i>
 								<span>Save</span>
 							</div>
-							<div className="flex-column">
-								<i class="far fa-bookmark btn-icon"></i>
+							<div
+								className="flex-column"
+								onClick={
+									isAuthVL
+										? () => watchLaterHandler()
+										: () => navigate("/login")
+								}
+							>
+								<i
+									class={`${
+										inWatchLaterPlaylist ? "fas" : "far"
+									}  fa-bookmark btn-icon  ${
+										addingToWatchLater || removingFromWatchLater
+											? "btn-disabled"
+											: ""
+									}  `}
+								></i>
+
 								<span>Watch Later</span>
 							</div>
+							<PlaylistModal val={opened} setOpened={setOpened} />
 						</div>
 						<div className="creator padding-xs flex-row gap-xs ">
 							<div class="avatar avatar-xs">

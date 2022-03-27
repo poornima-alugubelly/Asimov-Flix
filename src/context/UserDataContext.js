@@ -34,7 +34,7 @@ const UserDataProvider = ({ children }) => {
 					if (res.status === 200) {
 						userDataDispatch({
 							type: SET_LIKES,
-							payload: { likesPlaylist: res.data.likes },
+							payload: { data: res.data },
 						});
 						setLoading(false);
 					}
@@ -51,7 +51,7 @@ const UserDataProvider = ({ children }) => {
 					if (res.status === 200) {
 						userDataDispatch({
 							type: SET_WATCHLATER,
-							payload: { watchLaterPlaylist: res.data.watchLater },
+							payload: { data: res.data },
 						});
 						setLoading(false);
 					}
