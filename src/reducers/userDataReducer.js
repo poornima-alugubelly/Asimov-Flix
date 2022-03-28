@@ -1,22 +1,36 @@
 import { actionTypes } from "./actionTypes";
 export const userDataReducer = (state, action) => {
-	const { SET_LIKES, SET_WATCHLATER } = actionTypes;
+	const { SET_LIKES, SET_WATCHLATER, SET_PLAYLISTS, SET_PLAYLIST } =
+		actionTypes;
 
 	switch (action.type) {
 		case SET_LIKES:
-			console.log(state, action, "in reducer");
 			const likes = action.payload.data.likes;
 			return {
 				...state,
 				likesPlaylist: [...likes],
 			};
 		case SET_WATCHLATER:
-			console.log(state, action, "in reducer 2");
-			console.log("action", action);
 			const watchLater = action.payload.data.watchLater;
 			return {
 				...state,
 				watchLaterPlaylist: [...watchLater],
+			};
+		case SET_PLAYLISTS:
+			const data = action.payload.data.playlists;
+			return {
+				...state,
+				playlists: [...data],
+			};
+		case SET_PLAYLIST:
+			const playlistVal = action.payload.data.playlist;
+
+			const newPlaylist = state.playlists.map((currPlaylist) =>
+				currPlaylist._id === playlistVal._id ? playlistVal : currPlaylist
+			);
+			return {
+				...state,
+				playlists: newPlaylist,
 			};
 	}
 };

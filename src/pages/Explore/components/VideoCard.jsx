@@ -4,7 +4,7 @@ import { useState } from "react";
 import { PlaylistModal } from "../../../components/PlaylistModal/PlaylistModal";
 import { useUserData } from "../../../context/UserDataContext";
 import { checkInPlaylist } from "../../../helpers/checkInPlaylist";
-import { usePlaylistUpdater } from "../../../hooks/usePlaylistUpdater";
+import { usePlaylist } from "../../../hooks/usePlaylist";
 import {
 	addToLikesService,
 	removeLikesService,
@@ -26,24 +26,27 @@ export const VideoCard = ({ video }) => {
 	const { SET_LIKES, SET_WATCHLATER } = actionTypes;
 	const inLikedPlaylist = checkInPlaylist(video, likesPlaylist);
 	const inWatchLaterPlaylist = checkInPlaylist(video, watchLaterPlaylist);
-	const [addToLikesServerCall] = usePlaylistUpdater(
+	const [addToLikesServerCall] = usePlaylist(
 		addToLikesService,
 		video,
 		SET_LIKES
 	);
-	const [removeFromLikesServerCall] = usePlaylistUpdater(
+	const [removeFromLikesServerCall] = usePlaylist(
 		removeLikesService,
 		video,
 		SET_LIKES
 	);
 
-	const [addToWatchLaterServerCall, addingToWatchLater] = usePlaylistUpdater(
+	const [addToWatchLaterServerCall, addingToWatchLater] = usePlaylist(
 		addToWatchLaterService,
 		video,
 		SET_WATCHLATER
 	);
-	const [removeFromWatchLaterServerCall, removingFromWatchLater] =
-		usePlaylistUpdater(removeWatchLaterService, video, SET_WATCHLATER);
+	const [removeFromWatchLaterServerCall, removingFromWatchLater] = usePlaylist(
+		removeWatchLaterService,
+		video,
+		SET_WATCHLATER
+	);
 	const likeHandler = () =>
 		inLikedPlaylist ? removeFromLikesServerCall() : addToLikesServerCall();
 	const { auth } = useAuth();
@@ -54,7 +57,11 @@ export const VideoCard = ({ video }) => {
 	return (
 		<>
 			<div className="card flex-column ">
-				<PlaylistModal val={openedModal} setOpened={setOpenedModal} />
+				<PlaylistModal
+					val={openedModal}
+					setOpened={setOpenedModal}
+					video={video}
+				/>
 				<div
 					className="img-container"
 					onClick={() => navigate(`/explore/${video.id}`)}
@@ -109,7 +116,10 @@ export const VideoCard = ({ video }) => {
 						</li>
 						<li
 							class="list-item flex-row gap-xs"
-							onClick={() => setOpenedModal(true)}
+							onClick={() => {
+								setOpenOptions(false);
+								setOpenedModal(true);
+							}}
 						>
 							<i class="fas fa-plus"></i> other playlist
 						</li>

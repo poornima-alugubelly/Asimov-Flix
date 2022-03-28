@@ -8,19 +8,21 @@ import { Signup } from "../pages/Auth/Signup/Signup";
 import { LikesPlaylist } from "../pages/SinglePlaylist/LikesPlaylist";
 import { ProtectedRoutes } from "./ProtectedRoutes";
 import { WatchLaterPlaylist } from "../pages/SinglePlaylist/WatchLaterPlaylist";
+import { MockApi } from "../components/MockApi";
 export const NavRoutes = () => {
 	return (
 		<Routes>
 			<Route path="/" element={<Explore />} />
 			<Route path="/explore" element={<Explore />} />
 			<Route path="/playlists" element={<Playlists />} />
-			<Route path="/singlePlaylist" element={<SinglePlaylist />} />
 
 			<Route path="explore/:videoId" element={<SingleVideo />} />
 			<Route path="/" element={<ProtectedRoutes />}>
 				<Route path="/likes" element={<LikesPlaylist />} />
 				<Route path="/watchLater" element={<WatchLaterPlaylist />} />
+				<Route path="/:playlistId" element={<SinglePlaylist />} />
 			</Route>
+			<Route path="/mockApi" element={<MockApi />} />
 
 			<Route path="/login" element={<Login />} />
 			<Route path="/signup" element={<Signup />} />

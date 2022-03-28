@@ -1,10 +1,10 @@
 import "./App.css";
 
 import { NavBar } from "./components/NavBar/NavBar";
-import { PlaylistModal } from "./components/PlaylistModal/PlaylistModal";
 import { NavRoutes } from "./routes/NavRoutes";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 function App() {
 	return (
 		<div className="App">
