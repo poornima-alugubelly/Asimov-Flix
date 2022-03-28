@@ -15,7 +15,7 @@ import {
 	addToWatchLaterService,
 	removeWatchLaterService,
 } from "../../../services/watchlist-services";
-
+import { addToHistoryService } from "../../../services/history-services";
 export const VideoCard = ({ video }) => {
 	const navigate = useNavigate();
 	const {
@@ -23,7 +23,7 @@ export const VideoCard = ({ video }) => {
 	} = useUserData();
 	const [openedModal, setOpenedModal] = useState(false);
 	const [openOptions, setOpenOptions] = useState(false);
-	const { SET_LIKES, SET_WATCHLATER } = actionTypes;
+	const { SET_LIKES, SET_WATCHLATER, SET_HISTORY } = actionTypes;
 	const inLikedPlaylist = checkInPlaylist(video, likesPlaylist);
 	const inWatchLaterPlaylist = checkInPlaylist(video, watchLaterPlaylist);
 	const [addToLikesServerCall] = usePlaylist(
@@ -47,6 +47,12 @@ export const VideoCard = ({ video }) => {
 		video,
 		SET_WATCHLATER
 	);
+
+	const [addToHistoryServerCall] = usePlaylist(
+		addToHistoryService,
+		video,
+		SET_HISTORY
+	);
 	const likeHandler = () =>
 		inLikedPlaylist ? removeFromLikesServerCall() : addToLikesServerCall();
 	const { auth } = useAuth();
@@ -61,10 +67,14 @@ export const VideoCard = ({ video }) => {
 					val={openedModal}
 					setOpened={setOpenedModal}
 					video={video}
+					key={video.id}
 				/>
 				<div
 					className="img-container"
-					onClick={() => navigate(`/explore/${video.id}`)}
+					onClick={() => {
+						addToHistoryServerCall();
+						navigate(`/explore/${video.id}`);
+					}}
 				>
 					<img src={video.thumbnail} className="img-responsive" />
 				</div>
@@ -87,7 +97,7 @@ export const VideoCard = ({ video }) => {
 				{openOptions && (
 					<ul className="video-option-container">
 						<li
-							class="list-item flex-row gap-xs"
+							class="list-item flex-row gap-xs flex-align-center"
 							onClick={
 								auth.isAuthVL ? () => likeHandler() : () => navigate("/login")
 							}
@@ -117,8 +127,12 @@ export const VideoCard = ({ video }) => {
 						<li
 							class="list-item flex-row gap-xs"
 							onClick={() => {
-								setOpenOptions(false);
-								setOpenedModal(true);
+								if (auth.isAuthVL) {
+									setOpenOptions(false);
+									setOpenedModal(true);
+								} else {
+									navigate("/login");
+								}
 							}}
 						>
 							<i class="fas fa-plus"></i> other playlist

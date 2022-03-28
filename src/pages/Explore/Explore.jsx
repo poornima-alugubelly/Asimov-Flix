@@ -11,7 +11,7 @@ export const Explore = () => {
 			<AsideNav />
 			<div className="grid-autofill-layout">
 				{data?.map((video) => (
-					<VideoCard video={video} />
+					<VideoCard key={video.id} video={video} />
 				))}
 			</div>
 		</div>

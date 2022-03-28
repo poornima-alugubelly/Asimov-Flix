@@ -4,10 +4,11 @@ import { useCustomPlaylist } from "../../../hooks/useCustomPlaylist";
 import { removeLikesService } from "../../../services/likes-services";
 import { removeFromPlaylistService } from "../../../services/playlist-services";
 import { removeWatchLaterService } from "../../../services/watchlist-services";
+import { removeFromHistoryService } from "../../../services/history-services";
 import { actionTypes } from "../../../reducers/actionTypes";
 
 export const PlaylistVideo = ({ video, playlistTitle, playlist }) => {
-	const { SET_LIKES, SET_PLAYLIST, SET_WATCHLATER } = actionTypes;
+	const { SET_LIKES, SET_PLAYLIST, SET_WATCHLATER, SET_HISTORY } = actionTypes;
 
 	const [removeFromLikesServerCall] = usePlaylist(
 		removeLikesService,
@@ -25,17 +26,25 @@ export const PlaylistVideo = ({ video, playlistTitle, playlist }) => {
 		video,
 		SET_WATCHLATER
 	);
+	const [removeFromHistoryServiceCall] = usePlaylist(
+		removeFromHistoryService,
+		video,
+		SET_HISTORY
+	);
 	console.log(playlistTitle);
 	const removeVideoHandler = () => {
-		if (playlistTitle === "Likes") {
-			console.log("likes");
-			removeFromLikesServerCall();
-		} else if (playlistTitle === "Watch Later") {
-			console.log("Watch Later");
-			removeFromWatchLaterServiceCall();
-		} else {
-			console.log("others");
-			removeFromPlaylistServerCall();
+		switch (playlistTitle) {
+			case "Likes":
+				removeFromLikesServerCall();
+				break;
+			case "Watch Later":
+				removeFromWatchLaterServiceCall();
+				break;
+			case "History":
+				removeFromHistoryServiceCall();
+				break;
+			default:
+				removeFromPlaylistServerCall();
 		}
 	};
 	return (

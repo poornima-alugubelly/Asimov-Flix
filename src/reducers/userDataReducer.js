@@ -1,7 +1,12 @@
 import { actionTypes } from "./actionTypes";
 export const userDataReducer = (state, action) => {
-	const { SET_LIKES, SET_WATCHLATER, SET_PLAYLISTS, SET_PLAYLIST } =
-		actionTypes;
+	const {
+		SET_LIKES,
+		SET_WATCHLATER,
+		SET_HISTORY,
+		SET_PLAYLISTS,
+		SET_PLAYLIST,
+	} = actionTypes;
 
 	switch (action.type) {
 		case SET_LIKES:
@@ -15,6 +20,12 @@ export const userDataReducer = (state, action) => {
 			return {
 				...state,
 				watchLaterPlaylist: [...watchLater],
+			};
+		case SET_HISTORY:
+			const history = action.payload.data.history;
+			return {
+				...state,
+				history: [...history],
 			};
 		case SET_PLAYLISTS:
 			const data = action.payload.data.playlists;

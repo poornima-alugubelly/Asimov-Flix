@@ -12,7 +12,7 @@ export const PlaylistModal = ({ val, setOpened, video }) => {
 	const {
 		userData: { playlists },
 	} = useUserData();
-	console.log("video", video);
+	console.log("sent video", video);
 	const { SET_PLAYLISTS } = actionTypes;
 	const [playlistTitle, setPlaylistTitle] = useState("");
 	const [addPlaylistServerCall] = useCustomPlaylist(
@@ -20,7 +20,7 @@ export const PlaylistModal = ({ val, setOpened, video }) => {
 		{ playlist: { title: playlistTitle, videos: [{ ...video }] } },
 		SET_PLAYLISTS
 	);
-
+	console.log("playlist", playlists);
 	useEffect(() => setIsOpen(val));
 
 	return (
@@ -41,13 +41,9 @@ export const PlaylistModal = ({ val, setOpened, video }) => {
 						</div>
 						<ul className="playlist-modal-body">
 							{playlists.map((playlist) => {
-								let exists;
+								const exists = checkInPlaylist(video, playlist.videos);
 								return (
 									<li className="text-center playlist-modal-item gap-s">
-										{playlist.videos.map((video) => {
-											exists = checkInPlaylist(video, playlist.videos);
-										})}
-
 										<CheckBox
 											key={playlist._id}
 											exists={exists}

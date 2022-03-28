@@ -4,6 +4,7 @@ import { actionTypes } from "../../reducers/actionTypes";
 import { useCustomPlaylist } from "../../hooks/useCustomPlaylist";
 
 export const CheckBox = ({ exists, playlist, video }) => {
+	console.log("exists", exists);
 	const { SET_PLAYLIST } = actionTypes;
 	const [addToPlaylistServiceCall] = useCustomPlaylist(
 		addToPlaylistService,
@@ -24,7 +25,7 @@ export const CheckBox = ({ exists, playlist, video }) => {
 		<input
 			type="checkbox"
 			className="input-checkbox"
-			checked={exists !== undefined}
+			checked={exists?.id === video.id}
 			onChange={() => checkBoxHandler(exists, playlist)}
 		/>
 	);
