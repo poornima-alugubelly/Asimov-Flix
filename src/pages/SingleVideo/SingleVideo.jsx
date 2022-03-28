@@ -2,26 +2,28 @@ import { AsideNav } from "../../components/AsideNav/AsideNav";
 import "./SingleVideo.css";
 import { PlaylistModal } from "../../components/PlaylistModal/PlaylistModal";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useVideoListing } from "../../context/VideosListingContext";
 import { addToLikesService } from "../../services/likes-services";
-import { usePlaylistUpdater } from "../../hooks/usePlaylistUpdater";
+import { usePlaylist } from "../../hooks/usePlaylist";
 import { checkInPlaylist } from "../../helpers/checkInPlaylist";
 import { useUserData } from "../../context/UserDataContext";
 import { removeLikesService } from "../../services/likes-services";
 import { useAuth } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+
 import {
 	addToWatchLaterService,
 	removeWatchLaterService,
 } from "../../services/watchlist-services";
+
+import { useCustomPlaylist } from "../../hooks/useCustomPlaylist";
 import { actionTypes } from "../../reducers/actionTypes";
 export const SingleVideo = () => {
 	const {
 		videoListingState: { data },
 	} = useVideoListing();
 	const [opened, setOpened] = useState(false);
-	const { SET_LIKES, SET_WATCHLATER } = actionTypes;
+	const { SET_LIKES, SET_WATCHLATER, SET_PLAYLISTS } = actionTypes;
 	const { videoId } = useParams();
 	const video = data?.find((video) => video.id === videoId);
 	const {
@@ -33,25 +35,28 @@ export const SingleVideo = () => {
 	const inLikedPlaylist = checkInPlaylist(video, likesPlaylist);
 	const inWatchLaterPlaylist = checkInPlaylist(video, watchLaterPlaylist);
 
-	const [addToLikesServerCall, addingToLikes] = usePlaylistUpdater(
+	const [addToLikesServerCall, addingToLikes] = usePlaylist(
 		addToLikesService,
 		video,
 		SET_LIKES
 	);
 
-	const [removeFromLikesServerCall, removingFromLikes] = usePlaylistUpdater(
+	const [removeFromLikesServerCall, removingFromLikes] = usePlaylist(
 		removeLikesService,
 		video,
 		SET_LIKES
 	);
 
-	const [addToWatchLaterServerCall, addingToWatchLater] = usePlaylistUpdater(
+	const [addToWatchLaterServerCall, addingToWatchLater] = usePlaylist(
 		addToWatchLaterService,
 		video,
 		SET_WATCHLATER
 	);
-	const [removeFromWatchLaterServerCall, removingFromWatchLater] =
-		usePlaylistUpdater(removeWatchLaterService, video, SET_WATCHLATER);
+	const [removeFromWatchLaterServerCall, removingFromWatchLater] = usePlaylist(
+		removeWatchLaterService,
+		video,
+		SET_WATCHLATER
+	);
 
 	const likeHandler = () =>
 		inLikedPlaylist ? removeFromLikesServerCall() : addToLikesServerCall();
@@ -123,7 +128,7 @@ export const SingleVideo = () => {
 
 								<span>Watch Later</span>
 							</div>
-							<PlaylistModal val={opened} setOpened={setOpened} />
+							<PlaylistModal val={opened} setOpened={setOpened} video={video} />
 						</div>
 						<div className="creator padding-xs flex-row gap-xs ">
 							<div class="avatar avatar-xs">

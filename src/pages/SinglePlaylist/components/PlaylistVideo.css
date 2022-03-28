@@ -1,0 +1,7 @@
+.playlist-video {
+	display: grid;
+	grid-template-columns: 30% minmax(0, 65%) minmax(0, 5%);
+	position: relative;
+	max-width: 30rem;
+	gap: 1rem;
+}

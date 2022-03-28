@@ -1,11 +1,28 @@
 import { useState, useEffect } from "react";
 import "./PlaylistModal.css";
-export const PlaylistModal = ({ val, setOpened }) => {
+import { useUserData } from "../../context/UserDataContext";
+import { addPlaylistService } from "../../services/playlist-services";
+import { useCustomPlaylist } from "../../hooks/useCustomPlaylist";
+import { actionTypes } from "../../reducers/actionTypes";
+import { checkInPlaylist } from "../../helpers/checkInPlaylist";
+import { CheckBox } from "./Checkbox";
+export const PlaylistModal = ({ val, setOpened, video }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [adding, setAdding] = useState(false);
+	const {
+		userData: { playlists },
+	} = useUserData();
+	console.log("video", video);
+	const { SET_PLAYLISTS } = actionTypes;
+	const [playlistTitle, setPlaylistTitle] = useState("");
+	const [addPlaylistServerCall] = useCustomPlaylist(
+		addPlaylistService,
+		{ playlist: { title: playlistTitle, videos: [{ ...video }] } },
+		SET_PLAYLISTS
+	);
 
 	useEffect(() => setIsOpen(val));
-	const items = ["Watch Later ", "Watch Later", "Watch Later"];
+
 	return (
 		<>
 			{isOpen && (
@@ -23,17 +40,43 @@ export const PlaylistModal = ({ val, setOpened }) => {
 							></i>
 						</div>
 						<ul className="playlist-modal-body">
-							{items.map((item) => (
-								<li className="text-center playlist-modal-item gap-s">
-									<input type="checkbox" className="input-checkbox" /> {item}
-								</li>
-							))}
+							{playlists.map((playlist) => {
+								let exists;
+								return (
+									<li className="text-center playlist-modal-item gap-s">
+										{playlist.videos.map((video) => {
+											exists = checkInPlaylist(video, playlist.videos);
+										})}
+
+										<CheckBox
+											key={playlist._id}
+											exists={exists}
+											playlist={playlist}
+											video={video}
+										/>
+
+										{playlist.title}
+									</li>
+								);
+							})}
 						</ul>
 						{adding ? (
 							<div className="flex-column gap-xs">
-								<input className="input" placeholder="Enter Name" />
+								<input
+									className="input"
+									placeholder="Enter Name"
+									value={playlistTitle}
+									onChange={(e) => setPlaylistTitle(e.target.value)}
+								/>
 								<span className="txt-high-light pointer" role="button">
-									<strong>CREATE</strong>
+									<b
+										onClick={() => {
+											addPlaylistServerCall();
+											setAdding(false);
+										}}
+									>
+										CREATE
+									</b>
 								</span>
 							</div>
 						) : (

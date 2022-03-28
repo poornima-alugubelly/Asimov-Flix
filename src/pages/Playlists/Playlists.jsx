@@ -1,27 +1,22 @@
 import "./Playlist.css";
 import { AsideNav } from "../../components/AsideNav/AsideNav";
-import { useNavigate } from "react-router-dom";
+import { useUserData } from "../../context/UserDataContext";
+import { PlaylistCard } from "./components/PlaylistCard";
+
 export const Playlists = () => {
-	const lists = ["watchlater", "abc", "xyz", "123", "ok"];
-	const navigate = useNavigate();
+	const {
+		userData: { playlists },
+	} = useUserData();
+
 	return (
 		<div className="main-container">
 			<AsideNav />
 			<div className="grid-autofill-layout">
-				<div
-					className="container card card-vertical"
-					onClick={() => navigate("/likes")}
-				>
-					<div className="text-overlay">liked</div>
-				</div>
-				{lists.map((item) => (
-					<div
-						className="container card card-vertical"
-						onClick={() => navigate("/singlePlaylist")}
-					>
-						<div className="text-overlay">{item}</div>
-					</div>
-				))}
+				{playlists.length === 0 ? (
+					<h3>No playlists created...</h3>
+				) : (
+					playlists.map((playlist) => <PlaylistCard playlist={playlist} />)
+				)}
 			</div>
 		</div>
 	);
