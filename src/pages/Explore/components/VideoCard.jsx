@@ -67,6 +67,7 @@ export const VideoCard = ({ video }) => {
 					val={openedModal}
 					setOpened={setOpenedModal}
 					video={video}
+					key={video.id}
 				/>
 				<div
 					className="img-container"
