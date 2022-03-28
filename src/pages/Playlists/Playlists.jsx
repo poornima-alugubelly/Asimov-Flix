@@ -15,7 +15,13 @@ export const Playlists = () => {
 				{playlists.length === 0 ? (
 					<h3>No playlists created...</h3>
 				) : (
-					playlists.map((playlist) => <PlaylistCard playlist={playlist} />)
+					playlists.map((playlist) =>
+						playlist.length === 0 ? (
+							<h3>No videos created...</h3>
+						) : (
+							<PlaylistCard playlist={playlist} />
+						)
+					)
 				)}
 			</div>
 		</div>

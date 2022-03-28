@@ -116,7 +116,10 @@ export const VideoCard = ({ video }) => {
 						</li>
 						<li
 							class="list-item flex-row gap-xs"
-							onClick={() => setOpenedModal(true)}
+							onClick={() => {
+								setOpenOptions(false);
+								setOpenedModal(true);
+							}}
 						>
 							<i class="fas fa-plus"></i> other playlist
 						</li>

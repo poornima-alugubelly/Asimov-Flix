@@ -12,12 +12,19 @@ export const PlaylistCard = ({ playlist }) => {
 	);
 
 	return (
-		<div className="card card-vertical">
+		<div className="card card-vertical ">
 			<div
 				className="img-container playlist-card-img"
 				onClick={() => navigate(`/${playlist._id}`)}
 			>
-				<img src={playlist.videos[0].thumbnail} className="img-responsive" />
+				<img
+					src={
+						playlist.videos.length === 0
+							? "/assets/novideos.png"
+							: playlist.videos[0].thumbnail
+					}
+					className="img-responsive"
+				/>
 				<div className="card-overlay">{playlist.videos.length}</div>
 			</div>
 

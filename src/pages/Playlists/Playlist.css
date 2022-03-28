@@ -30,4 +30,5 @@
 
 .playlist-card-img {
 	position: relative;
+	min-width: inherit;
 }
