@@ -27,9 +27,11 @@ export const AsideNav = () => {
 						<i class="fas fa-bookmark"></i>Watch Later
 					</li>
 				</Link>
-				<li className="flex-column  padding-s">
-					<i class="fas fa-history"></i>History
-				</li>
+				<Link to="/history">
+					<li className="flex-column  padding-s">
+						<i class="fas fa-history"></i>History
+					</li>
+				</Link>
 			</ul>
 		</aside>
 	);

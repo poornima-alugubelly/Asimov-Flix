@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const addToLikesService = async (video, token) => {
+export const addToHistoryService = async (video, token) => {
 	return await axios.post(
-		"/api/user/likes",
+		"/api/user/history",
 		{ video },
 		{ headers: { authorization: token } }
 	);

@@ -9,6 +9,7 @@ import { LikesPlaylist } from "../pages/SinglePlaylist/LikesPlaylist";
 import { ProtectedRoutes } from "./ProtectedRoutes";
 import { WatchLaterPlaylist } from "../pages/SinglePlaylist/WatchLaterPlaylist";
 import { MockApi } from "../components/MockApi";
+import { HistoryPlaylist } from "../pages/SinglePlaylist/HistoryPlaylist";
 export const NavRoutes = () => {
 	return (
 		<Routes>
@@ -20,6 +21,7 @@ export const NavRoutes = () => {
 			<Route path="/" element={<ProtectedRoutes />}>
 				<Route path="/likes" element={<LikesPlaylist />} />
 				<Route path="/watchLater" element={<WatchLaterPlaylist />} />
+				<Route path="/history" element={<HistoryPlaylist />} />
 				<Route path="/:playlistId" element={<SinglePlaylist />} />
 			</Route>
 			<Route path="/mockApi" element={<MockApi />} />
