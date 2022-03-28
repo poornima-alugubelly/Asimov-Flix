@@ -7,5 +7,10 @@
 
 .video-content {
 	display: flex;
+	justify-content: space-between;
 	padding: 0.5rem 0.25rem;
+}
+
+.video-content .flex-row {
+	flex-wrap: nowrap;
 }

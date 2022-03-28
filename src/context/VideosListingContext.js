@@ -1,6 +1,7 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
 import { videoListingReducer } from "../reducers/videoListingReducer";
 import { getVideoListingService } from "../services/getVideoListingService";
+import { getCategoriesService } from "../services/getCategoriesService";
 import { actionTypes } from "../reducers/actionTypes";
 const VideoListingContext = createContext();
 const useVideoListing = () => useContext(VideoListingContext);
@@ -10,6 +11,8 @@ const VideoListingProvider = ({ children }) => {
 		videoListingReducer,
 		{
 			data: [],
+			categories: [],
+			selectedCategory: "",
 		}
 	);
 
@@ -18,13 +21,14 @@ const VideoListingProvider = ({ children }) => {
 		(async () => {
 			try {
 				let res = await getVideoListingService();
+				let resCat = await getCategoriesService();
 
 				if (res.status === 200) {
 					let videos = res.data.videos;
-
+					let categories = resCat.data.categories;
 					videoListingDispatch({
 						type: LOAD_DATA,
-						payload: { videos },
+						payload: { videos, categories },
 					});
 				}
 			} catch (err) {
