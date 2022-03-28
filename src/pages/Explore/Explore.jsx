@@ -16,7 +16,7 @@ export const Explore = () => {
 		console.log(val);
 		videoListingDispatch({ type: FILTER, payload: { category: val } });
 	};
-	console.log(categories);
+
 	return (
 		<div className="main-container">
 			<AsideNav />

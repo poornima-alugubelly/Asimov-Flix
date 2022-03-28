@@ -9,12 +9,14 @@ export const CheckBox = ({ exists, playlist, video }) => {
 		addToPlaylistService,
 		playlist,
 		SET_PLAYLIST,
+		`Added to ${playlist.title}`,
 		video
 	);
 	const [removeFromPlaylistServerCall] = useCustomPlaylist(
 		removeFromPlaylistService,
 		playlist,
 		SET_PLAYLIST,
+		`Removed from ${playlist.title}`,
 		video
 	);
 	const checkBoxHandler = () => {

@@ -29,29 +29,34 @@ export const VideoCard = ({ video }) => {
 	const [addToLikesServerCall] = usePlaylist(
 		addToLikesService,
 		video,
-		SET_LIKES
+		SET_LIKES,
+		"Added to Likes"
 	);
 	const [removeFromLikesServerCall] = usePlaylist(
 		removeLikesService,
 		video,
-		SET_LIKES
+		SET_LIKES,
+		"Removed from Likes"
 	);
 
 	const [addToWatchLaterServerCall, addingToWatchLater] = usePlaylist(
 		addToWatchLaterService,
 		video,
-		SET_WATCHLATER
+		SET_WATCHLATER,
+		"Added to Watch Later"
 	);
 	const [removeFromWatchLaterServerCall, removingFromWatchLater] = usePlaylist(
 		removeWatchLaterService,
 		video,
-		SET_WATCHLATER
+		SET_WATCHLATER,
+		"Removed from Watch Later"
 	);
 
 	const [addToHistoryServerCall] = usePlaylist(
 		addToHistoryService,
 		video,
-		SET_HISTORY
+		SET_HISTORY,
+		""
 	);
 	const likeHandler = () =>
 		inLikedPlaylist ? removeFromLikesServerCall() : addToLikesServerCall();

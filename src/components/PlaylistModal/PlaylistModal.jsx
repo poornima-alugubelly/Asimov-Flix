@@ -17,7 +17,8 @@ export const PlaylistModal = ({ val, setOpened, video }) => {
 	const [addPlaylistServerCall] = useCustomPlaylist(
 		addPlaylistService,
 		{ playlist: { title: playlistTitle, videos: [{ ...video }] } },
-		SET_PLAYLISTS
+		SET_PLAYLISTS,
+		`${playlistTitle} playlist created and video added`
 	);
 
 	useEffect(() => setIsOpen(val));

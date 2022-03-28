@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-toastify";
 import { useUserData } from "../context/UserDataContext";
-export const usePlaylist = (serviceFunction, video, action) => {
+export const usePlaylist = (serviceFunction, video, action, msg) => {
 	const [updatingPlaylist, setUpdatingPlaylist] = useState(false);
 	const { userDataDispatch } = useUserData();
 
@@ -13,8 +13,7 @@ export const usePlaylist = (serviceFunction, video, action) => {
 			const res = await serviceFunction(video, auth.tokenVL);
 
 			if (res.status === 201 || 200) {
-				if (res.status === 201) toast.success("Added to playlist");
-				if (res.status === 200) toast.success("Removed from playlist");
+				msg && toast.success(msg);
 				setUpdatingPlaylist(false);
 				userDataDispatch({
 					type: action,
