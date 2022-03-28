@@ -96,7 +96,7 @@ export const VideoCard = ({ video }) => {
 				{openOptions && (
 					<ul className="video-option-container">
 						<li
-							class="list-item flex-row gap-xs"
+							class="list-item flex-row gap-xs flex-align-center"
 							onClick={
 								auth.isAuthVL ? () => likeHandler() : () => navigate("/login")
 							}
@@ -126,8 +126,12 @@ export const VideoCard = ({ video }) => {
 						<li
 							class="list-item flex-row gap-xs"
 							onClick={() => {
-								setOpenOptions(false);
-								setOpenedModal(true);
+								if (auth.isAuthVL) {
+									setOpenOptions(false);
+									setOpenedModal(true);
+								} else {
+									navigate("/login");
+								}
 							}}
 						>
 							<i class="fas fa-plus"></i> other playlist

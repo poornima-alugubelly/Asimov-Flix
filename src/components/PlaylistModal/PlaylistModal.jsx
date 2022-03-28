@@ -12,7 +12,7 @@ export const PlaylistModal = ({ val, setOpened, video }) => {
 	const {
 		userData: { playlists },
 	} = useUserData();
-	console.log("video", video);
+
 	const { SET_PLAYLISTS } = actionTypes;
 	const [playlistTitle, setPlaylistTitle] = useState("");
 	const [addPlaylistServerCall] = useCustomPlaylist(

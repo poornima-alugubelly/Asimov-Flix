@@ -11,7 +11,11 @@ export const HistoryPlaylist = () => {
 			<AsideNav />
 
 			<div className="padding-l">
-				<h2>History</h2>
+				<div className="flex-row gap-xl flex-align-center ">
+					<h2>History</h2>
+					<span className=" pointer  link-text">Clear Watch History</span>
+				</div>
+
 				<div className="padding-tp-btm-s">
 					{history.length === 0 ? (
 						<h3>No Videos watched...</h3>
