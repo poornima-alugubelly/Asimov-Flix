@@ -29,29 +29,34 @@ export const VideoCard = ({ video }) => {
 	const [addToLikesServerCall] = usePlaylist(
 		addToLikesService,
 		video,
-		SET_LIKES
+		SET_LIKES,
+		"Added to Likes"
 	);
 	const [removeFromLikesServerCall] = usePlaylist(
 		removeLikesService,
 		video,
-		SET_LIKES
+		SET_LIKES,
+		"Removed from Likes"
 	);
 
 	const [addToWatchLaterServerCall, addingToWatchLater] = usePlaylist(
 		addToWatchLaterService,
 		video,
-		SET_WATCHLATER
+		SET_WATCHLATER,
+		"Added to Watch Later"
 	);
 	const [removeFromWatchLaterServerCall, removingFromWatchLater] = usePlaylist(
 		removeWatchLaterService,
 		video,
-		SET_WATCHLATER
+		SET_WATCHLATER,
+		"Removed from Watch Later"
 	);
 
 	const [addToHistoryServerCall] = usePlaylist(
 		addToHistoryService,
 		video,
-		SET_HISTORY
+		SET_HISTORY,
+		""
 	);
 	const likeHandler = () =>
 		inLikedPlaylist ? removeFromLikesServerCall() : addToLikesServerCall();
@@ -79,16 +84,23 @@ export const VideoCard = ({ video }) => {
 					<img src={video.thumbnail} className="img-responsive" />
 				</div>
 				<div className="video-content gap-s ">
-					<div class="avatar avatar-xs">
-						<img class="avatar-round" src={video.creatorProfile} alt="Avatar" />
-					</div>
-					<div className="flex-column gap-xs">
-						<strong class="video-title">{video.title} </strong>
-						<div className="flex-column">
-							<span className="text-xxs">{video.views} views</span>
-							<span className="text-xxs">{video.creator}</span>
+					<div className="flex-row gap-s">
+						<div class="avatar avatar-xs">
+							<img
+								class="avatar-round"
+								src={video.creatorProfile}
+								alt="Avatar"
+							/>
+						</div>
+						<div className="flex-column gap-xs">
+							<strong class="video-title">{video.title} </strong>
+							<div className="flex-column">
+								<span className="text-xxs">{video.views} views</span>
+								<span className="text-xxs">{video.creator}</span>
+							</div>
 						</div>
 					</div>
+
 					<i
 						class="fas fa-ellipsis-v"
 						onClick={() => setOpenOptions(!openOptions)}

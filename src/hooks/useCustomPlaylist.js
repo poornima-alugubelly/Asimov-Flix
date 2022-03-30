@@ -6,6 +6,7 @@ export const useCustomPlaylist = (
 	serviceFunction,
 	playlist,
 	action,
+	msg,
 	video = null
 ) => {
 	const [updatingPlaylist, setUpdatingPlaylist] = useState(false);
@@ -22,8 +23,7 @@ export const useCustomPlaylist = (
 			}
 
 			if (res.status === 201 || 200) {
-				if (res.status === 201) toast.success("Added to playlist");
-				if (res.status === 200) toast.success("Removed from playlist");
+				toast.success(msg);
 				setUpdatingPlaylist(false);
 
 				userDataDispatch({

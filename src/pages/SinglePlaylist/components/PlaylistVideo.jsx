@@ -13,23 +13,28 @@ export const PlaylistVideo = ({ video, playlistTitle, playlist }) => {
 	const [removeFromLikesServerCall] = usePlaylist(
 		removeLikesService,
 		video,
-		SET_LIKES
+		SET_LIKES,
+		"Removed from Likes"
 	);
+	console.log("history , playlists", playlist);
 	const [removeFromPlaylistServerCall] = useCustomPlaylist(
 		removeFromPlaylistService,
 		playlist,
 		SET_PLAYLIST,
+		`Removed from ${playlist?.title}`,
 		video
 	);
 	const [removeFromWatchLaterServiceCall] = usePlaylist(
 		removeWatchLaterService,
 		video,
-		SET_WATCHLATER
+		SET_WATCHLATER,
+		"Removed from Watch Later"
 	);
 	const [removeFromHistoryServiceCall] = usePlaylist(
 		removeFromHistoryService,
 		video,
-		SET_HISTORY
+		SET_HISTORY,
+		"Removed from History"
 	);
 	console.log(playlistTitle);
 	const removeVideoHandler = () => {

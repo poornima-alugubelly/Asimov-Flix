@@ -10,13 +10,11 @@ import { checkInPlaylist } from "../../helpers/checkInPlaylist";
 import { useUserData } from "../../context/UserDataContext";
 import { removeLikesService } from "../../services/likes-services";
 import { useAuth } from "../../context/AuthContext";
-
 import {
 	addToWatchLaterService,
 	removeWatchLaterService,
 } from "../../services/watchlist-services";
 
-import { useCustomPlaylist } from "../../hooks/useCustomPlaylist";
 import { actionTypes } from "../../reducers/actionTypes";
 export const SingleVideo = () => {
 	const {
@@ -38,24 +36,28 @@ export const SingleVideo = () => {
 	const [addToLikesServerCall, addingToLikes] = usePlaylist(
 		addToLikesService,
 		video,
-		SET_LIKES
+		SET_LIKES,
+		"Added to Likes"
 	);
 
 	const [removeFromLikesServerCall, removingFromLikes] = usePlaylist(
 		removeLikesService,
 		video,
-		SET_LIKES
+		SET_LIKES,
+		"Removed from Likes"
 	);
 
 	const [addToWatchLaterServerCall, addingToWatchLater] = usePlaylist(
 		addToWatchLaterService,
 		video,
-		SET_WATCHLATER
+		SET_WATCHLATER,
+		"Added to Watch Later"
 	);
 	const [removeFromWatchLaterServerCall, removingFromWatchLater] = usePlaylist(
 		removeWatchLaterService,
 		video,
-		SET_WATCHLATER
+		SET_WATCHLATER,
+		"Removed from Watch Later"
 	);
 
 	const likeHandler = () =>

@@ -12,15 +12,15 @@ export const PlaylistModal = ({ val, setOpened, video }) => {
 	const {
 		userData: { playlists },
 	} = useUserData();
-	console.log("sent video", video);
 	const { SET_PLAYLISTS } = actionTypes;
 	const [playlistTitle, setPlaylistTitle] = useState("");
 	const [addPlaylistServerCall] = useCustomPlaylist(
 		addPlaylistService,
 		{ playlist: { title: playlistTitle, videos: [{ ...video }] } },
-		SET_PLAYLISTS
+		SET_PLAYLISTS,
+		`${playlistTitle} playlist created and video added`
 	);
-	console.log("playlist", playlists);
+
 	useEffect(() => setIsOpen(val));
 
 	return (

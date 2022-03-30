@@ -1,0 +1,26 @@
+.chip {
+	background-color: var(--ternary-color);
+	border: 1px solid var(--primary-color);
+	border-radius: 100px;
+	padding: 8px 16px;
+	margin-right: 1rem;
+	cursor: pointer;
+}
+
+.chip:hover,
+.chip-active {
+	background-color: var(--primary-color);
+	color: var(--ternary-color);
+}
+
+.chip-container {
+	margin-left: 3rem;
+	padding: 2rem 0rem 0rem 1rem;
+}
+
+@media (max-width: 1024px) {
+	.chip-container {
+		margin: 0 0 3rem 0;
+		padding: 0rem 0rem 0rem 0;
+	}
+}

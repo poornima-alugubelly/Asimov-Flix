@@ -5,10 +5,11 @@ import { removePlaylistService } from "../../../services/playlist-services";
 export const PlaylistCard = ({ playlist }) => {
 	const navigate = useNavigate();
 	const { SET_PLAYLISTS } = actionTypes;
-	const [removeFromPlaylistServerCall] = useCustomPlaylist(
+	const [removePlaylistServerCall] = useCustomPlaylist(
 		removePlaylistService,
 		playlist,
-		SET_PLAYLISTS
+		SET_PLAYLISTS,
+		`Deleted ${playlist.title}`
 	);
 
 	return (
@@ -32,7 +33,7 @@ export const PlaylistCard = ({ playlist }) => {
 				<span className="text-s">{playlist.title}</span>
 				<i
 					class="fas fa-trash-alt "
-					onClick={() => removeFromPlaylistServerCall()}
+					onClick={() => removePlaylistServerCall()}
 				></i>
 			</div>
 		</div>
