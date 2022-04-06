@@ -16,6 +16,8 @@ import {
 	removeWatchLaterService,
 } from "../../../services/watchlist-services";
 import { addToHistoryService } from "../../../services/history-services";
+import { getCustomViewCount } from "../../../helpers/getCustomViewCount";
+
 export const VideoCard = ({ video }) => {
 	const navigate = useNavigate();
 	const {
@@ -76,7 +78,8 @@ export const VideoCard = ({ video }) => {
 				/>
 				<div
 					className="img-container"
-					onClick={() => {
+					onClick={async () => {
+						const res = await updateVideoCountService(video);
 						addToHistoryServerCall();
 						navigate(`/explore/${video.id}`);
 					}}
@@ -96,7 +99,9 @@ export const VideoCard = ({ video }) => {
 							<strong class="video-title">{video.title} </strong>
 							<div className="flex-column">
 								<div className="flex-row gap-xs flex-align-center">
-									<span className="text-xxs">{video.views} views</span>
+									<span className="text-xxs">
+										{getCustomViewCount(video.views)} views
+									</span>
 									<span>•</span>
 									<span className="text-xxs">
 										{new Date(video.uploaded).toDateString().slice(4)}
