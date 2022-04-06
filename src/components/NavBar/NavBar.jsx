@@ -1,10 +1,19 @@
 import "./NavBar.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
-// import { useUserData } from "../../context/UserDataContext";
+import { actionTypes } from "../../constants/actionTypes";
+import { useVideoListing } from "../../context/VideosListingContext";
 export const NavBar = () => {
 	const { auth, setAuth } = useAuth();
+	const navigate = useNavigate();
+	const {
+		videoListingState: { searchText },
+		videoListingDispatch,
+	} = useVideoListing();
+	const { SEARCH } = actionTypes;
+
+	const [typing, setTyping] = useState(false);
 
 	const logoutHandler = () => {
 		localStorage.removeItem("tokenVL");
@@ -31,9 +40,36 @@ export const NavBar = () => {
 			</div>
 
 			<div className="search-bar input">
-				<input type="text" placeholder="type to search..." />
+				<input
+					type="text"
+					placeholder="Enter category or product name..."
+					value={searchText}
+					onChange={(e) => {
+						navigate("/explore");
+						setTyping(true);
+						videoListingDispatch({
+							type: SEARCH,
+							payload: { searchInput: e.target.value },
+						});
+					}}
+				/>
 				<button>
-					<img className="icon-search" src="/assets/Search.svg" alt="search" />
+					<img
+						className="icon-search"
+						src={
+							typing && searchText
+								? "/assets/dismiss-blue.svg"
+								: "/assets/Search.svg"
+						}
+						alt="search"
+						onClick={() => {
+							setTyping(false);
+							videoListingDispatch({
+								type: SEARCH,
+								payload: { searchInput: "" },
+							});
+						}}
+					/>
 				</button>
 			</div>
 

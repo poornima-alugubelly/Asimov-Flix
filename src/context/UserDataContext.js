@@ -6,7 +6,7 @@ import {
 	useState,
 } from "react";
 import { getLikesService } from "../services/likes-services";
-import { actionTypes } from "../reducers/actionTypes";
+import { actionTypes } from "../constants/actionTypes";
 import { userDataReducer } from "../reducers/userDataReducer";
 import { useAuth } from "./AuthContext";
 import { getWatchLaterService } from "../services/watchlist-services";
@@ -22,7 +22,10 @@ const UserDataProvider = ({ children }) => {
 		playlists: [],
 	});
 
-	const [loading, setLoading] = useState(false);
+	const [historyLoading, setHistoryLoading] = useState(false);
+	const [likesLoading, setLikesLoading] = useState(false);
+	const [watchLaterLoading, setWatchLaterLoading] = useState(false);
+	const [otherPlaylistLoading, setOtherPlaylistLoading] = useState(false);
 	const [error, setError] = useState(false);
 	const { SET_LIKES, SET_WATCHLATER, SET_PLAYLISTS, SET_HISTORY } = actionTypes;
 	const { auth } = useAuth();
@@ -30,16 +33,15 @@ const UserDataProvider = ({ children }) => {
 	useEffect(() => {
 		auth.isAuthVL &&
 			(async () => {
-				setLoading(true);
+				setLikesLoading(true);
 				try {
 					const res = await getLikesService(auth.tokenVL);
-
+					setLikesLoading(false);
 					if (res.status === 200) {
 						userDataDispatch({
 							type: SET_LIKES,
 							payload: { data: res.data },
 						});
-						setLoading(false);
 					}
 				} catch (err) {
 					console.log("error", err);
@@ -47,7 +49,7 @@ const UserDataProvider = ({ children }) => {
 			})();
 		auth.isAuthVL &&
 			(async () => {
-				setLoading(true);
+				setWatchLaterLoading(true);
 				try {
 					const res = await getWatchLaterService(auth.tokenVL);
 
@@ -56,7 +58,7 @@ const UserDataProvider = ({ children }) => {
 							type: SET_WATCHLATER,
 							payload: { data: res.data },
 						});
-						setLoading(false);
+						setWatchLaterLoading(false);
 					}
 				} catch (err) {
 					console.log("error", err);
@@ -64,7 +66,7 @@ const UserDataProvider = ({ children }) => {
 			})();
 		auth.isAuthVL &&
 			(async () => {
-				setLoading(true);
+				setOtherPlaylistLoading(true);
 				try {
 					const res = await getAllPlaylistService(auth.tokenVL);
 
@@ -73,7 +75,7 @@ const UserDataProvider = ({ children }) => {
 							type: SET_PLAYLISTS,
 							payload: { data: res.data },
 						});
-						setLoading(false);
+						setOtherPlaylistLoading(false);
 					}
 				} catch (err) {
 					console.log("error", err);
@@ -81,7 +83,7 @@ const UserDataProvider = ({ children }) => {
 			})();
 		auth.isAuthVL &&
 			(async () => {
-				setLoading(true);
+				setHistoryLoading(true);
 				try {
 					const res = await getHistoryService(auth.tokenVL);
 					console.log("in history playlists", res.data);
@@ -90,7 +92,7 @@ const UserDataProvider = ({ children }) => {
 							type: SET_HISTORY,
 							payload: { data: res.data },
 						});
-						setLoading(false);
+						setHistoryLoading(false);
 					}
 				} catch (err) {
 					console.log("error", err);
@@ -100,7 +102,15 @@ const UserDataProvider = ({ children }) => {
 
 	return (
 		<userDataContext.Provider
-			value={{ userData, userDataDispatch, error, loading }}
+			value={{
+				userData,
+				userDataDispatch,
+				error,
+				historyLoading,
+				watchLaterLoading,
+				likesLoading,
+				otherPlaylistLoading,
+			}}
 		>
 			{children}
 		</userDataContext.Provider>

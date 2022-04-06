@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { actionTypes } from "../../../reducers/actionTypes";
+import { actionTypes } from "../../../constants/actionTypes";
 import { useCustomPlaylist } from "../../../hooks/useCustomPlaylist";
 import { removePlaylistService } from "../../../services/playlist-services";
 export const PlaylistCard = ({ playlist }) => {

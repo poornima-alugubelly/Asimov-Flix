@@ -25,6 +25,7 @@ export const NavRoutes = () => {
 				<Route path="/playlists" element={<Playlists />} />
 			</Route>
 			<Route path="/mockApi" element={<MockApi />} />
+			<Route path="/error" element={<p>Error page</p>} />
 
 			<Route path="/login" element={<Login />} />
 			<Route path="/signup" element={<Signup />} />

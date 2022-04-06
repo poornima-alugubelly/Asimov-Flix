@@ -1,4 +1,4 @@
-import { actionTypes } from "./actionTypes";
+import { actionTypes } from "../constants/actionTypes";
 export const userDataReducer = (state, action) => {
 	const {
 		SET_LIKES,

@@ -13,7 +13,20 @@
 	color: var(--ternary-color);
 }
 
-.chip-container {
+.sort-drawer{
+	box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+	background-color: var(--bg-color);
+	position: absolute;
+	top:95%;
+	z-index:4
+}
+
+.sort-wrapper{
+	position: relative;
+	padding-top:1.5rem;
+}
+
+.explore-subcontainer {
 	margin-left: 3rem;
 	padding: 2rem 0rem 0rem 1rem;
 }

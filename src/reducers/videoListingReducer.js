@@ -1,6 +1,6 @@
-import { actionTypes } from "./actionTypes";
+import { actionTypes } from "../constants/actionTypes";
 export const videoListingReducer = (state, action) => {
-	const { LOAD_DATA, FILTER } = actionTypes;
+	const { LOAD_DATA, FILTER, SORT_VIDEOS, SEARCH } = actionTypes;
 	switch (action.type) {
 		case LOAD_DATA:
 			return {
@@ -13,5 +13,18 @@ export const videoListingReducer = (state, action) => {
 				...state,
 				selectedCategory: action.payload.category,
 			};
+		case SORT_VIDEOS:
+			return {
+				...state,
+				sortBy: action.payload.sortBy,
+			};
+		case SEARCH: {
+			return {
+				...state,
+				searchText: action.payload.searchInput,
+			};
+		}
+		default:
+			return state;
 	}
 };

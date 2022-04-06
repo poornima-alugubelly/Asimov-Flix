@@ -10,12 +10,14 @@ import {
 	removeLikesService,
 } from "../../../services/likes-services";
 import { useAuth } from "../../../context/AuthContext";
-import { actionTypes } from "../../../reducers/actionTypes";
+import { actionTypes } from "../../../constants/actionTypes";
 import {
 	addToWatchLaterService,
 	removeWatchLaterService,
 } from "../../../services/watchlist-services";
 import { addToHistoryService } from "../../../services/history-services";
+import { getCustomViewCount } from "../../../helpers/getCustomViewCount";
+
 export const VideoCard = ({ video }) => {
 	const navigate = useNavigate();
 	const {
@@ -26,13 +28,13 @@ export const VideoCard = ({ video }) => {
 	const { SET_LIKES, SET_WATCHLATER, SET_HISTORY } = actionTypes;
 	const inLikedPlaylist = checkInPlaylist(video, likesPlaylist);
 	const inWatchLaterPlaylist = checkInPlaylist(video, watchLaterPlaylist);
-	const [addToLikesServerCall] = usePlaylist(
+	const [addToLikesServerCall, addingToLikes] = usePlaylist(
 		addToLikesService,
 		video,
 		SET_LIKES,
 		"Added to Likes"
 	);
-	const [removeFromLikesServerCall] = usePlaylist(
+	const [removeFromLikesServerCall, removingFromLikes] = usePlaylist(
 		removeLikesService,
 		video,
 		SET_LIKES,
@@ -76,7 +78,7 @@ export const VideoCard = ({ video }) => {
 				/>
 				<div
 					className="img-container"
-					onClick={() => {
+					onClick={async () => {
 						addToHistoryServerCall();
 						navigate(`/explore/${video.id}`);
 					}}
@@ -95,7 +97,16 @@ export const VideoCard = ({ video }) => {
 						<div className="flex-column gap-xs">
 							<strong class="video-title">{video.title} </strong>
 							<div className="flex-column">
-								<span className="text-xxs">{video.views} views</span>
+								<div className="flex-row gap-xs flex-align-center">
+									<span className="text-xxs">
+										{getCustomViewCount(video.views)} views
+									</span>
+									<span>•</span>
+									<span className="text-xxs">
+										{new Date(video.uploaded).toDateString().slice(4)}
+									</span>
+								</div>
+
 								<span className="text-xxs">{video.creator}</span>
 							</div>
 						</div>
@@ -109,7 +120,9 @@ export const VideoCard = ({ video }) => {
 				{openOptions && (
 					<ul className="video-option-container">
 						<li
-							class="list-item flex-row gap-xs flex-align-center"
+							class={`list-item flex-row gap-xs flex-align-center ${
+								addingToLikes || removingFromLikes ? "btn-disabled" : ""
+							}`}
 							onClick={
 								auth.isAuthVL ? () => likeHandler() : () => navigate("/login")
 							}
@@ -122,7 +135,11 @@ export const VideoCard = ({ video }) => {
 							Liked Videos
 						</li>
 						<li
-							class="list-item flex-row gap-xs"
+							class={`list-item flex-row gap-xs ${
+								addingToWatchLater || removingFromWatchLater
+									? "btn-disabled"
+									: ""
+							}`}
 							onClick={
 								auth.isAuthVL
 									? () => watchLaterHandler()

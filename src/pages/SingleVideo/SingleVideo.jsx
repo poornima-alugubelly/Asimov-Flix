@@ -15,7 +15,7 @@ import {
 	removeWatchLaterService,
 } from "../../services/watchlist-services";
 
-import { actionTypes } from "../../reducers/actionTypes";
+import { actionTypes } from "../../constants/actionTypes";
 export const SingleVideo = () => {
 	const {
 		videoListingState: { data },
@@ -86,7 +86,9 @@ export const SingleVideo = () => {
 					></iframe>
 					<div className="video-description">
 						<h2>{video?.title}</h2>
-						<span>{video?.views} • views</span>
+						<span>
+							{new Intl.NumberFormat("en-US").format(video?.views)} • views
+						</span>
 						<div className="flex-row gap-l padding-tp-btm-s">
 							<div
 								className="flex-column"
