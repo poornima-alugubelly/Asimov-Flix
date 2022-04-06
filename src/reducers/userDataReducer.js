@@ -29,6 +29,7 @@ export const userDataReducer = (state, action) => {
 			};
 		case SET_PLAYLISTS:
 			const data = action.payload.data.playlists;
+			console.log(data);
 			return {
 				...state,
 				playlists: [...data],

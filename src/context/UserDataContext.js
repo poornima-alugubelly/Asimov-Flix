@@ -69,7 +69,7 @@ const UserDataProvider = ({ children }) => {
 				setOtherPlaylistLoading(true);
 				try {
 					const res = await getAllPlaylistService(auth.tokenVL);
-
+					console.log("playlist", res);
 					if (res.status === 200) {
 						userDataDispatch({
 							type: SET_PLAYLISTS,
