@@ -18,9 +18,9 @@ export const Signup = () => {
 		try {
 			const res = await signupService(email, password, firstName, lastName);
 			if (res.status === 201) {
-				localStorage.setItem("tokenVL", res.data.token);
+				localStorage.setItem("tokenVL", res.data.encodedToken);
 				localStorage.setItem("sVL", true);
-				setAuth({ tokenVL: res.data.token, isAuthVL: true });
+				setAuth({ tokenVL: res.data.encodedToken, isAuthVL: true });
 				navigate("/explore");
 			}
 		} catch (err) {
