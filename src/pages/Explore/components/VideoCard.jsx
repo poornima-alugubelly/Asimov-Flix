@@ -28,13 +28,13 @@ export const VideoCard = ({ video }) => {
 	const { SET_LIKES, SET_WATCHLATER, SET_HISTORY } = actionTypes;
 	const inLikedPlaylist = checkInPlaylist(video, likesPlaylist);
 	const inWatchLaterPlaylist = checkInPlaylist(video, watchLaterPlaylist);
-	const [addToLikesServerCall] = usePlaylist(
+	const [addToLikesServerCall, addingToLikes] = usePlaylist(
 		addToLikesService,
 		video,
 		SET_LIKES,
 		"Added to Likes"
 	);
-	const [removeFromLikesServerCall] = usePlaylist(
+	const [removeFromLikesServerCall, removingFromLikes] = usePlaylist(
 		removeLikesService,
 		video,
 		SET_LIKES,
@@ -79,7 +79,6 @@ export const VideoCard = ({ video }) => {
 				<div
 					className="img-container"
 					onClick={async () => {
-						const res = await updateVideoCountService(video);
 						addToHistoryServerCall();
 						navigate(`/explore/${video.id}`);
 					}}
@@ -121,7 +120,9 @@ export const VideoCard = ({ video }) => {
 				{openOptions && (
 					<ul className="video-option-container">
 						<li
-							class="list-item flex-row gap-xs flex-align-center"
+							class={`list-item flex-row gap-xs flex-align-center ${
+								addingToLikes || removingFromLikes ? "btn-disabled" : ""
+							}`}
 							onClick={
 								auth.isAuthVL ? () => likeHandler() : () => navigate("/login")
 							}
@@ -134,7 +135,11 @@ export const VideoCard = ({ video }) => {
 							Liked Videos
 						</li>
 						<li
-							class="list-item flex-row gap-xs"
+							class={`list-item flex-row gap-xs ${
+								addingToWatchLater || removingFromWatchLater
+									? "btn-disabled"
+									: ""
+							}`}
 							onClick={
 								auth.isAuthVL
 									? () => watchLaterHandler()

@@ -1,12 +1,14 @@
 import { AsideNav } from "../../components/AsideNav/AsideNav";
 import { PlaylistVideo } from "./components/PlaylistVideo";
 import { useUserData } from "../../context/UserDataContext";
+import { Loader } from "../../components/Loader/Loader";
 export const WatchLaterPlaylist = () => {
 	const {
 		userData: { watchLaterPlaylist },
+		watchLaterLoading,
 	} = useUserData();
 
-	return (
+	return !watchLaterLoading ? (
 		<div className="main-container">
 			<AsideNav />
 
@@ -23,5 +25,7 @@ export const WatchLaterPlaylist = () => {
 				</div>
 			</div>
 		</div>
+	) : (
+		<Loader />
 	);
 };

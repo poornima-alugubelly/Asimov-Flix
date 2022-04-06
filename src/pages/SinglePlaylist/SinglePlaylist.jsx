@@ -1,10 +1,8 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { AsideNav } from "../../components/AsideNav/AsideNav";
-import { videos } from "../../backend/db/videos";
 import { PlaylistVideo } from "./components/PlaylistVideo";
-import { getPlaylistService } from "../../services/playlist-services";
 import { useUserData } from "../../context/UserDataContext";
-import { useCustomPlaylist } from "../../hooks/useCustomPlaylist";
+
 export const SinglePlaylist = () => {
 	const { playlistId } = useParams();
 	const {
@@ -14,7 +12,7 @@ export const SinglePlaylist = () => {
 	const playlist = playlists.find(
 		(currPlaylist) => currPlaylist._id === playlistId
 	);
-	console.log("found playlist", playlist);
+
 	return (
 		<div className="main-container">
 			<AsideNav />

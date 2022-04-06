@@ -19,7 +19,9 @@ export const useCustomPlaylist = (
 			if (video) {
 				res = await serviceFunction(playlist, video, auth.tokenVL);
 			} else {
+				console.log(serviceFunction, auth.tokenVL);
 				res = await serviceFunction(playlist, auth.tokenVL);
+				console.log("history", res);
 			}
 
 			if (res.status === 201 || 200) {

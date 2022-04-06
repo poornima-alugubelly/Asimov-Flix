@@ -2,13 +2,15 @@ import "./Playlist.css";
 import { AsideNav } from "../../components/AsideNav/AsideNav";
 import { useUserData } from "../../context/UserDataContext";
 import { PlaylistCard } from "./components/PlaylistCard";
+import { Loader } from "../../components/Loader/Loader";
 
 export const Playlists = () => {
 	const {
 		userData: { playlists },
+		otherPlaylistLoading,
 	} = useUserData();
 
-	return (
+	return !otherPlaylistLoading ? (
 		<div className="main-container">
 			<AsideNav />
 			<div className="grid-autofill-layout">
@@ -25,5 +27,7 @@ export const Playlists = () => {
 				)}
 			</div>
 		</div>
+	) : (
+		<Loader />
 	);
 };

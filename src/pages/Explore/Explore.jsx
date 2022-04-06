@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useVideoListing } from "../../context/VideosListingContext";
 import { VideoCard } from "./components/VideoCard";
 import { AsideNav } from "../../components/AsideNav/AsideNav";
@@ -6,6 +7,7 @@ import { actionTypes } from "../../constants/actionTypes";
 import { constants } from "../../constants/constants";
 import { sortByDate } from "../../helpers/sortByDate";
 import { getSearchedVideos } from "../../helpers/getSearchedVideos";
+import { Loader } from "../../components/Loader/Loader";
 import "./Explore.css";
 export const Explore = () => {
 	const { FILTER, SORT_VIDEOS } = actionTypes;
@@ -19,8 +21,11 @@ export const Explore = () => {
 			searchText,
 		},
 		videoListingDispatch,
+		videoListingLoader,
+		videoListingError,
 	} = useVideoListing();
-
+	const navigate = useNavigate();
+	videoListingError && navigate("/error");
 	let videoList = [...data];
 
 	if (searchText) {
@@ -36,7 +41,7 @@ export const Explore = () => {
 	};
 	const [sortOptions, setSortOptions] = useState(false);
 
-	return (
+	return !videoListingLoader ? (
 		<div className="main-container">
 			<AsideNav />
 
@@ -109,5 +114,7 @@ export const Explore = () => {
 				</div>
 			</div>
 		</div>
+	) : (
+		<Loader />
 	);
 };
