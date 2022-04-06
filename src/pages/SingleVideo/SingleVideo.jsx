@@ -15,7 +15,7 @@ import {
 	removeWatchLaterService,
 } from "../../services/watchlist-services";
 
-import { actionTypes } from "../../reducers/actionTypes";
+import { actionTypes } from "../../constants/actionTypes";
 export const SingleVideo = () => {
 	const {
 		videoListingState: { data },

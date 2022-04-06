@@ -17,6 +17,7 @@ export const videos = [
 			"https://yt3.ggpht.com/ytc/AKedOLTUnZtaiWtHHHFxqilQey0x3Psd8rRtiIDxyYgHCg=s48-c-k-c0x00ffffff-no-rj",
 		views: 12134,
 		category: "Movies",
+		uploaded: new Date("Apr 06 2021 12:31:25"),
 	},
 	{
 		_id: uuid(),
@@ -29,6 +30,7 @@ export const videos = [
 			"https://yt3.ggpht.com/ytc/AKedOLTZzZv60B1v76eOC7TsEYZD_TMH2-H5KeYxkfXGBQ=s48-c-k-c0x00ffffff-no-rj",
 		views: 12134,
 		category: "Series",
+		uploaded: new Date("Feb 23 2022 12:31:25"),
 	},
 	{
 		_id: uuid(),
@@ -41,6 +43,7 @@ export const videos = [
 			"https://yt3.ggpht.com/ytc/AKedOLSPEPJy_pwy2hYmyyrxk4flGAqOfoCfnz_z9viZZg=s48-c-k-c0x00ffffff-no-rj",
 		views: 67000,
 		category: "Anime",
+		uploaded: new Date("May 12 2017 12:31:25"),
 	},
 	{
 		_id: uuid(),
@@ -53,6 +56,7 @@ export const videos = [
 			"https://yt3.ggpht.com/ytc/AKedOLR1xUQzRDQ8brz_n2zE5uCWakAGF8rTZclF2_vGUQ=s48-c-k-c0x00ffffff-no-rj",
 		views: 2345,
 		category: "Anime",
+		uploaded: new Date("Jun 02 2016 12:31:25"),
 	},
 	{
 		_id: uuid(),
@@ -65,6 +69,7 @@ export const videos = [
 		src: "https://www.youtube.com/embed/cq2iTHoLrt0",
 		views: 9000,
 		category: "Series",
+		uploaded: new Date("Jun 02 2018 12:31:25"),
 	},
 	{
 		_id: uuid(),
@@ -77,6 +82,7 @@ export const videos = [
 		src: "https://www.youtube.com/embed/cTm93Vjuuc4",
 		views: 2345,
 		category: "Anime",
+		uploaded: new Date("Dec 02 2018 11:31:25"),
 	},
 	{
 		_id: uuid(),
@@ -89,6 +95,7 @@ export const videos = [
 			"https://yt3.ggpht.com/ytc/AKedOLTUnZtaiWtHHHFxqilQey0x3Psd8rRtiIDxyYgHCg=s48-c-k-c0x00ffffff-no-rj",
 		views: 12134,
 		category: "Movies",
+		uploaded: new Date("Jul 17 2020 11:31:25"),
 	},
 	{
 		_id: uuid(),
@@ -101,5 +108,6 @@ export const videos = [
 		src: "https://www.youtube.com/embed/wUFwunMKa4E",
 		views: 9000,
 		category: "Series",
+		uploaded: new Date("Nov 25 2020 11:31:25"),
 	},
 ];

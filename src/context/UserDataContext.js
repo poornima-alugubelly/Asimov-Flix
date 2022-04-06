@@ -6,7 +6,7 @@ import {
 	useState,
 } from "react";
 import { getLikesService } from "../services/likes-services";
-import { actionTypes } from "../reducers/actionTypes";
+import { actionTypes } from "../constants/actionTypes";
 import { userDataReducer } from "../reducers/userDataReducer";
 import { useAuth } from "./AuthContext";
 import { getWatchLaterService } from "../services/watchlist-services";

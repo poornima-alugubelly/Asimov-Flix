@@ -3,7 +3,7 @@ import "./PlaylistModal.css";
 import { useUserData } from "../../context/UserDataContext";
 import { addPlaylistService } from "../../services/playlist-services";
 import { useCustomPlaylist } from "../../hooks/useCustomPlaylist";
-import { actionTypes } from "../../reducers/actionTypes";
+import { actionTypes } from "../../constants/actionTypes";
 import { checkInPlaylist } from "../../helpers/checkInPlaylist";
 import { CheckBox } from "./Checkbox";
 export const PlaylistModal = ({ val, setOpened, video }) => {

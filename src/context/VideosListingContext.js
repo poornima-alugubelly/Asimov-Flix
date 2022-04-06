@@ -2,7 +2,7 @@ import { createContext, useContext, useReducer, useEffect } from "react";
 import { videoListingReducer } from "../reducers/videoListingReducer";
 import { getVideoListingService } from "../services/getVideoListingService";
 import { getCategoriesService } from "../services/getCategoriesService";
-import { actionTypes } from "../reducers/actionTypes";
+import { actionTypes } from "../constants/actionTypes";
 const VideoListingContext = createContext();
 const useVideoListing = () => useContext(VideoListingContext);
 
@@ -13,6 +13,8 @@ const VideoListingProvider = ({ children }) => {
 			data: [],
 			categories: [],
 			selectedCategory: "",
+			sortBy: "",
+			searchText: "",
 		}
 	);
 

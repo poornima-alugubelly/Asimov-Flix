@@ -5,7 +5,7 @@ import { removeLikesService } from "../../../services/likes-services";
 import { removeFromPlaylistService } from "../../../services/playlist-services";
 import { removeWatchLaterService } from "../../../services/watchlist-services";
 import { removeFromHistoryService } from "../../../services/history-services";
-import { actionTypes } from "../../../reducers/actionTypes";
+import { actionTypes } from "../../../constants/actionTypes";
 
 export const PlaylistVideo = ({ video, playlistTitle, playlist }) => {
 	const { SET_LIKES, SET_PLAYLIST, SET_WATCHLATER, SET_HISTORY } = actionTypes;

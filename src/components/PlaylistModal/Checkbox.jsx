@@ -1,6 +1,6 @@
 import { addToPlaylistService } from "../../services/playlist-services";
 import { removeFromPlaylistService } from "../../services/playlist-services";
-import { actionTypes } from "../../reducers/actionTypes";
+import { actionTypes } from "../../constants/actionTypes";
 import { useCustomPlaylist } from "../../hooks/useCustomPlaylist";
 
 export const CheckBox = ({ exists, playlist, video }) => {

@@ -10,7 +10,7 @@ import {
 	removeLikesService,
 } from "../../../services/likes-services";
 import { useAuth } from "../../../context/AuthContext";
-import { actionTypes } from "../../../reducers/actionTypes";
+import { actionTypes } from "../../../constants/actionTypes";
 import {
 	addToWatchLaterService,
 	removeWatchLaterService,
@@ -95,7 +95,14 @@ export const VideoCard = ({ video }) => {
 						<div className="flex-column gap-xs">
 							<strong class="video-title">{video.title} </strong>
 							<div className="flex-column">
-								<span className="text-xxs">{video.views} views</span>
+								<div className="flex-row gap-xs flex-align-center">
+									<span className="text-xxs">{video.views} views</span>
+									<span>•</span>
+									<span className="text-xxs">
+										{new Date(video.uploaded).toDateString().slice(4)}
+									</span>
+								</div>
+
 								<span className="text-xxs">{video.creator}</span>
 							</div>
 						</div>
