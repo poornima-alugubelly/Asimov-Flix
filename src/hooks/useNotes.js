@@ -5,13 +5,14 @@ import { toast } from "react-toastify";
 export const useNotes = (serviceFunction, video, msg, action, note) => {
 	const { userDataDispatch } = useUserData();
 	const { auth } = useAuth();
-	const { updatingNotes, setUpdatingNotes } = useState(false);
+
+	const [updatingNotes, setUpdatingNotes] = useState(false);
+
 	const notesUpdateCall = async () => {
 		setUpdatingNotes(true);
 		try {
-			console.log(serviceFunction, video, msg, action, note, auth.tokenVL);
 			const res = await serviceFunction(video, note, auth.tokenVL);
-			console.log("notes", res);
+
 			if (res.status === 201 || 200) {
 				msg && toast.success(msg);
 				setUpdatingNotes(false);
@@ -21,7 +22,7 @@ export const useNotes = (serviceFunction, video, msg, action, note) => {
 				});
 			}
 		} catch (err) {
-			toast.error("There was a problem please try later");
+			console.log(err);
 		}
 	};
 	return [notesUpdateCall, updatingNotes];
