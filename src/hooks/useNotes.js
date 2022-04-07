@@ -5,7 +5,9 @@ import { toast } from "react-toastify";
 export const useNotes = (serviceFunction, video, msg, action, note) => {
 	const { userDataDispatch } = useUserData();
 	const { auth } = useAuth();
-	const { updatingNotes, setUpdatingNotes } = useState(false);
+
+	const [updatingNotes, setUpdatingNotes] = useState(false);
+
 	const notesUpdateCall = async () => {
 		setUpdatingNotes(true);
 		try {
@@ -20,7 +22,7 @@ export const useNotes = (serviceFunction, video, msg, action, note) => {
 				});
 			}
 		} catch (err) {
-			toast.error("There was a problem please try later");
+			console.log(err);
 		}
 	};
 	return [notesUpdateCall, updatingNotes];

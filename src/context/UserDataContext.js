@@ -47,9 +47,7 @@ const UserDataProvider = ({ children }) => {
 						});
 					}
 				} catch (err) {
-					toast.error(
-						"Likes playlist count not be loaded please try after some time"
-					);
+					console.log(err);
 				}
 			})();
 		auth.isAuthVL &&
@@ -66,9 +64,7 @@ const UserDataProvider = ({ children }) => {
 						setWatchLaterLoading(false);
 					}
 				} catch (err) {
-					toast.error(
-						"Watch later playlist count not be loaded please try after some time"
-					);
+					console.log(err);
 				}
 			})();
 		auth.isAuthVL &&
@@ -84,16 +80,14 @@ const UserDataProvider = ({ children }) => {
 						setOtherPlaylistLoading(false);
 					}
 				} catch (err) {
-					toast.error(
-						"Playlists count not be loaded please try after some time"
-					);
+					console.log(err);
 				}
 			})();
 		auth.isAuthVL &&
 			(async () => {
 				setHistoryLoading(true);
 				try {
-					const res = await getHistoryService(auth.tokenVL);
+					const res = await getHistoryService(auth.tokenVL)
 					if (res.status === 200) {
 						userDataDispatch({
 							type: SET_HISTORY,
@@ -102,9 +96,7 @@ const UserDataProvider = ({ children }) => {
 						setHistoryLoading(false);
 					}
 				} catch (err) {
-					toast.error(
-						"History playlist count not be loaded please try after some time"
-					);
+					console.log(err);
 				}
 			})();
 	}, [auth.isAuthVL]);
