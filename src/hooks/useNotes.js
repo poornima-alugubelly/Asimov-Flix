@@ -5,9 +5,7 @@ import { toast } from "react-toastify";
 export const useNotes = (serviceFunction, video, msg, action, note) => {
 	const { userDataDispatch } = useUserData();
 	const { auth } = useAuth();
-
 	const [updatingNotes, setUpdatingNotes] = useState(false);
-
 	const notesUpdateCall = async () => {
 		setUpdatingNotes(true);
 		try {
