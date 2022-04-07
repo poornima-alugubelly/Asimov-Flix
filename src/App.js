@@ -1,5 +1,5 @@
 import "./App.css";
-
+import { lazy, Suspense } from "react";
 import { NavBar } from "./components/NavBar/NavBar";
 import { NavRoutes } from "./routes/NavRoutes";
 import { ToastContainer } from "react-toastify";

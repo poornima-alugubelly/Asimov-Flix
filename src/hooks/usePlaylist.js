@@ -5,8 +5,8 @@ import { useUserData } from "../context/UserDataContext";
 export const usePlaylist = (serviceFunction, video, action, msg) => {
 	const [updatingPlaylist, setUpdatingPlaylist] = useState(false);
 	const { userDataDispatch } = useUserData();
-
 	const { auth } = useAuth();
+
 	const playlistUpdateCall = async () => {
 		setUpdatingPlaylist(true);
 		try {
@@ -21,8 +21,8 @@ export const usePlaylist = (serviceFunction, video, action, msg) => {
 				});
 			}
 		} catch (err) {
-			console.log(err);
+			toast.error("There was a problem please try later");
 		}
 	};
-	return [playlistUpdateCall, updatingPlaylist, setUpdatingPlaylist];
+	return [playlistUpdateCall, updatingPlaylist];
 };

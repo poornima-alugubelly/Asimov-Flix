@@ -13,13 +13,14 @@ export const Signup = () => {
 	const { setAuth } = useAuth();
 	const navigate = useNavigate();
 	const [pwdToggle, pwdToggler] = usePwdToggler();
+	const [error, setError] = useState("");
 	const signUpHandler = async (e, email, password, firstName, lastName) => {
 		e.preventDefault();
 		try {
 			const res = await signupService(email, password, firstName, lastName);
 			if (res.status === 201) {
 				localStorage.setItem("tokenVL", res.data.encodedToken);
-				localStorage.setItem("sVL", true);
+				localStorage.setItem("isAuthVL", true);
 				setAuth({ tokenVL: res.data.encodedToken, isAuthVL: true });
 				navigate("/explore");
 			}
@@ -128,6 +129,7 @@ export const Signup = () => {
 							I accept all Terms & Conditions
 						</label>
 					</div>
+					{error && <span className="text-red">{error}</span>}
 
 					<button class="btn btn-primary-solid">Sign Up</button>
 					<a

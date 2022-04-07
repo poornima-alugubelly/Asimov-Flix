@@ -26,9 +26,12 @@ export const NavRoutes = () => {
 			</Route>
 			<Route path="/mockApi" element={<MockApi />} />
 			<Route path="/error" element={<p>Error page</p>} />
-
 			<Route path="/login" element={<Login />} />
 			<Route path="/signup" element={<Signup />} />
+			<Route
+				path="*"
+				element={<h3 className="flex-center">Did not find the page!</h3>}
+			/>
 		</Routes>
 	);
 };

@@ -5,6 +5,7 @@ import { useAuth } from "../../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { usePwdToggler } from "../../../hooks/usePwdToggler";
 import { Link, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 export const Login = () => {
 	const [formVal, setFormVal] = useState({ email: "", password: "" });
 	const [pwdToggle, pwdToggler] = usePwdToggler();
@@ -12,13 +13,13 @@ export const Login = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const from = location?.state?.from.pathname || "/";
-
 	const loginHandler = async (e, email, password) => {
 		setFormVal({ email, password });
 		e.preventDefault();
 		try {
 			const res = await loginService(email, password);
 			if (res.status === 200) {
+				toast.success("Successfully logged in!");
 				localStorage.setItem("tokenVL", res.data.encodedToken);
 				localStorage.setItem("isAuthVL", true);
 
@@ -26,7 +27,7 @@ export const Login = () => {
 				navigate(from, { replace: true });
 			}
 		} catch (err) {
-			console.log("err", err);
+			toast.error("There was an error logging in please try again");
 		}
 	};
 

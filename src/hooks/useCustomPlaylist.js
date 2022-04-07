@@ -21,7 +21,6 @@ export const useCustomPlaylist = (
 			} else {
 				console.log(serviceFunction, auth.tokenVL);
 				res = await serviceFunction(playlist, auth.tokenVL);
-				console.log("history", res);
 			}
 
 			if (res.status === 201 || 200) {
@@ -34,8 +33,8 @@ export const useCustomPlaylist = (
 				});
 			}
 		} catch (err) {
-			console.log(err);
+			toast.error("There was a problem please try later");
 		}
 	};
-	return [customPlaylistUpdateCall, updatingPlaylist, setUpdatingPlaylist];
+	return [customPlaylistUpdateCall, updatingPlaylist];
 };
