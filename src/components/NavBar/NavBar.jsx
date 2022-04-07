@@ -12,7 +12,6 @@ export const NavBar = () => {
 		videoListingDispatch,
 	} = useVideoListing();
 	const { SEARCH } = actionTypes;
-
 	const [typing, setTyping] = useState(false);
 
 	const logoutHandler = () => {

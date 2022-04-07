@@ -39,6 +39,7 @@ export const signupHandler = function (schema, request) {
 			history: [],
 			playlists: [],
 			watchLater: [],
+			notes: [],
 		};
 		const createdUser = schema.users.create(newUser);
 		const encodedToken = sign({ _id, email }, process.env.REACT_APP_JWT_SECRET);

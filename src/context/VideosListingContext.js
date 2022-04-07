@@ -35,8 +35,8 @@ const VideoListingProvider = ({ children }) => {
 				setVideoListingLoader(true);
 
 				if (res.status === 200) {
-					let videos = res.data.videos;
-					let categories = resCat.data.categories;
+					const videos = res.data.videos;
+					const categories = resCat.data.categories;
 					videoListingDispatch({
 						type: LOAD_DATA,
 						payload: { videos, categories },

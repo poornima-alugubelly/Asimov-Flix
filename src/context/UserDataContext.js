@@ -12,6 +12,7 @@ import { useAuth } from "./AuthContext";
 import { getWatchLaterService } from "../services/watchlist-services";
 import { getAllPlaylistService } from "../services/playlist-services";
 import { getHistoryService } from "../services/history-services";
+import { toast } from "react-toastify";
 const userDataContext = createContext();
 const useUserData = () => useContext(userDataContext);
 const UserDataProvider = ({ children }) => {
@@ -20,13 +21,15 @@ const UserDataProvider = ({ children }) => {
 		watchLaterPlaylist: [],
 		history: [],
 		playlists: [],
+		notes: [],
+		theme: "light",
 	});
 
 	const [historyLoading, setHistoryLoading] = useState(false);
 	const [likesLoading, setLikesLoading] = useState(false);
 	const [watchLaterLoading, setWatchLaterLoading] = useState(false);
 	const [otherPlaylistLoading, setOtherPlaylistLoading] = useState(false);
-	const [error, setError] = useState(false);
+
 	const { SET_LIKES, SET_WATCHLATER, SET_PLAYLISTS, SET_HISTORY } = actionTypes;
 	const { auth } = useAuth();
 
@@ -44,7 +47,9 @@ const UserDataProvider = ({ children }) => {
 						});
 					}
 				} catch (err) {
-					console.log("error", err);
+					toast.error(
+						"Likes playlist count not be loaded please try after some time"
+					);
 				}
 			})();
 		auth.isAuthVL &&
@@ -61,7 +66,9 @@ const UserDataProvider = ({ children }) => {
 						setWatchLaterLoading(false);
 					}
 				} catch (err) {
-					console.log("error", err);
+					toast.error(
+						"Watch later playlist count not be loaded please try after some time"
+					);
 				}
 			})();
 		auth.isAuthVL &&
@@ -78,7 +85,9 @@ const UserDataProvider = ({ children }) => {
 						setOtherPlaylistLoading(false);
 					}
 				} catch (err) {
-					console.log("error", err);
+					toast.error(
+						"Playlists count not be loaded please try after some time"
+					);
 				}
 			})();
 		auth.isAuthVL &&
@@ -95,7 +104,9 @@ const UserDataProvider = ({ children }) => {
 						setHistoryLoading(false);
 					}
 				} catch (err) {
-					console.log("error", err);
+					toast.error(
+						"History playlist count not be loaded please try after some time"
+					);
 				}
 			})();
 	}, [auth.isAuthVL]);
@@ -105,7 +116,6 @@ const UserDataProvider = ({ children }) => {
 			value={{
 				userData,
 				userDataDispatch,
-				error,
 				historyLoading,
 				watchLaterLoading,
 				likesLoading,

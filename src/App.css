@@ -1,8 +1,10 @@
 @import url(https://asimov-ui.netlify.app/themes/darktheme.css);
 
+
 .content{
 	min-height: 80vh;
 }
+
 .main-container {
 	display: grid;
 	grid-template-columns: min-content 1fr;

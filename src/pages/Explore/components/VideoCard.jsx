@@ -5,6 +5,7 @@ import { PlaylistModal } from "../../../components/PlaylistModal/PlaylistModal";
 import { useUserData } from "../../../context/UserDataContext";
 import { checkInPlaylist } from "../../../helpers/checkInPlaylist";
 import { usePlaylist } from "../../../hooks/usePlaylist";
+import { useVideoListing } from "../../../context/VideosListingContext";
 import {
 	addToLikesService,
 	removeLikesService,
@@ -17,17 +18,20 @@ import {
 } from "../../../services/watchlist-services";
 import { addToHistoryService } from "../../../services/history-services";
 import { getCustomViewCount } from "../../../helpers/getCustomViewCount";
-
+import { updateVideoCountService } from "../../../services/updateVideoCountService";
 export const VideoCard = ({ video }) => {
 	const navigate = useNavigate();
 	const {
 		userData: { likesPlaylist, watchLaterPlaylist },
 	} = useUserData();
+	const { videoListingDispatch } = useVideoListing();
 	const [openedModal, setOpenedModal] = useState(false);
 	const [openOptions, setOpenOptions] = useState(false);
-	const { SET_LIKES, SET_WATCHLATER, SET_HISTORY } = actionTypes;
+	const { auth } = useAuth();
+	const { SET_LIKES, SET_WATCHLATER, SET_HISTORY, SET_VIDEOS } = actionTypes;
 	const inLikedPlaylist = checkInPlaylist(video, likesPlaylist);
 	const inWatchLaterPlaylist = checkInPlaylist(video, watchLaterPlaylist);
+
 	const [addToLikesServerCall, addingToLikes] = usePlaylist(
 		addToLikesService,
 		video,
@@ -60,13 +64,30 @@ export const VideoCard = ({ video }) => {
 		SET_HISTORY,
 		""
 	);
+
+	const updateVideoCountServerCall = async () => {
+		try {
+			const res = await updateVideoCountService(video);
+			if (res.status === 200) {
+				const videos = res.data.videos;
+				videoListingDispatch({
+					type: SET_VIDEOS,
+					payload: { videos },
+				});
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	const likeHandler = () =>
 		inLikedPlaylist ? removeFromLikesServerCall() : addToLikesServerCall();
-	const { auth } = useAuth();
+
 	const watchLaterHandler = () =>
 		inWatchLaterPlaylist
 			? removeFromWatchLaterServerCall()
 			: addToWatchLaterServerCall();
+
 	return (
 		<>
 			<div className="card flex-column ">
@@ -79,6 +100,7 @@ export const VideoCard = ({ video }) => {
 				<div
 					className="img-container"
 					onClick={async () => {
+						updateVideoCountServerCall();
 						addToHistoryServerCall();
 						navigate(`/explore/${video.id}`);
 					}}

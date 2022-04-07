@@ -6,6 +6,7 @@ export const userDataReducer = (state, action) => {
 		SET_HISTORY,
 		SET_PLAYLISTS,
 		SET_PLAYLIST,
+		SET_NOTES,
 	} = actionTypes;
 
 	switch (action.type) {
@@ -26,6 +27,12 @@ export const userDataReducer = (state, action) => {
 			return {
 				...state,
 				history: [...history],
+			};
+		case SET_NOTES:
+			const notes = action.payload.data.notes;
+			return {
+				...state,
+				notes: [...notes],
 			};
 		case SET_PLAYLISTS:
 			const data = action.payload.data.playlists;

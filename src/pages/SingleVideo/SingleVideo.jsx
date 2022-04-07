@@ -1,7 +1,7 @@
 import { AsideNav } from "../../components/AsideNav/AsideNav";
 import "./SingleVideo.css";
-import { PlaylistModal } from "../../components/PlaylistModal/PlaylistModal";
 import { useState } from "react";
+import { PlaylistModal } from "../../components/PlaylistModal/PlaylistModal";
 import { useNavigate, useParams } from "react-router-dom";
 import { useVideoListing } from "../../context/VideosListingContext";
 import { addToLikesService } from "../../services/likes-services";
@@ -14,19 +14,22 @@ import {
 	addToWatchLaterService,
 	removeWatchLaterService,
 } from "../../services/watchlist-services";
-
 import { actionTypes } from "../../constants/actionTypes";
+import { VideoNotesList } from "./components/VideoNotesList/VideoNotesList";
+import { VideoNotesForm } from "./components/VideoNotesForm";
 export const SingleVideo = () => {
 	const {
 		videoListingState: { data },
 	} = useVideoListing();
 	const [opened, setOpened] = useState(false);
-	const { SET_LIKES, SET_WATCHLATER, SET_PLAYLISTS } = actionTypes;
+	const { SET_LIKES, SET_WATCHLATER, SET_NOTES } = actionTypes;
 	const { videoId } = useParams();
 	const video = data?.find((video) => video.id === videoId);
 	const {
-		userData: { likesPlaylist, watchLaterPlaylist },
+		userData: { likesPlaylist, watchLaterPlaylist, notes },
 	} = useUserData();
+	const vidNotesList = notes?.filter((note) => note._id === video._id)[0]
+		?.vidNotes;
 	const {
 		auth: { isAuthVL },
 	} = useAuth();
@@ -149,32 +152,11 @@ export const SingleVideo = () => {
 
 				<div className="note-section padding-s flex-column  gap-s">
 					<h3>Notes</h3>
-					<form className="flex-column  gap-s">
-						<input type="text" id="note-title" className="input" />
-						<textarea
-							name=""
-							id=""
-							cols="30"
-							rows="10"
-							className="input"
-						></textarea>
-						<div class="flex-row gap-xs">
-							<button className="btn btn-primary-solid">Save</button>
-							<button className="btn btn-primary-outline">Discard</button>
-						</div>
-					</form>
-					<div className="note padding-xs">
-						<p>
-							Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-							Accusamus ratione placeat non culpa quibusdam cupiditate repellat
-							dolore necessitatibus, quod illo.
-						</p>
-						<i class="far fa-clock"></i>
-						<div class="flex-row gap-xs padding-tp-btm-xs">
-							<i class="fas fa-pencil-alt"></i>
-							<i class="fas fa-trash-alt"></i>
-						</div>
-					</div>
+					<VideoNotesForm
+						video={video}
+						initFormVal={{ title: "", description: "" }}
+					/>
+					<VideoNotesList vidNotesList={vidNotesList} video={video} />
 				</div>
 			</div>
 		</div>
