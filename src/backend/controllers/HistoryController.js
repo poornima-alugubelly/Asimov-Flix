@@ -115,7 +115,6 @@ export const removeVideoFromHistoryHandler = function (schema, request) {
 
 export const clearHistoryHandler = function (schema, request) {
 	const user = requiresAuth.call(this, request);
-	console.log(user);
 	try {
 		if (!user) {
 			return new Response(

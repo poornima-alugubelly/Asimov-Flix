@@ -47,7 +47,7 @@ export const Explore = () => {
 
 			<div>
 				<div className="explore-subcontainer">
-					<div className="flex-row">
+					<div className="flex-row gap-s">
 						<span
 							className={`chip ${selectedCategory ? "" : "chip-active"}`}
 							onClick={() => videoOptionsDispatchCall("")}

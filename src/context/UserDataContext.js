@@ -76,7 +76,6 @@ const UserDataProvider = ({ children }) => {
 				setOtherPlaylistLoading(true);
 				try {
 					const res = await getAllPlaylistService(auth.tokenVL);
-					console.log("playlist", res);
 					if (res.status === 200) {
 						userDataDispatch({
 							type: SET_PLAYLISTS,
@@ -95,7 +94,6 @@ const UserDataProvider = ({ children }) => {
 				setHistoryLoading(true);
 				try {
 					const res = await getHistoryService(auth.tokenVL);
-					console.log("in history playlists", res.data);
 					if (res.status === 200) {
 						userDataDispatch({
 							type: SET_HISTORY,

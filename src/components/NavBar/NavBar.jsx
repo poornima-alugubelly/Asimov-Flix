@@ -1,5 +1,5 @@
 import "./NavBar.css";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { actionTypes } from "../../constants/actionTypes";
@@ -14,26 +14,34 @@ export const NavBar = () => {
 	const { SEARCH } = actionTypes;
 	const [typing, setTyping] = useState(false);
 
+	const getActiveStyle = ({ isActive }) => ({
+		color: isActive ? "#01d2ed" : "",
+	});
+
 	const logoutHandler = () => {
 		localStorage.removeItem("tokenVL");
 		localStorage.removeItem("isAuthVL");
 		setAuth({ tokenVL: "", isAuthVL: false });
-		navigate("/explore");
+		navigate("/");
 	};
 
 	return (
 		<nav className="nav-bar">
 			<div className="nav-bar-primary">
-				<Link to="/explore" className="nav-bar-logo">
+				<NavLink to="/" style={getActiveStyle} className="nav-bar-logo">
 					AX
-				</Link>
+				</NavLink>
 
 				<ul className="nav-bar-links">
 					<li>
-						<Link to="/explore">Explore</Link>
+						<NavLink to="/" style={getActiveStyle}>
+							Explore
+						</NavLink>
 					</li>
 					<li>
-						<Link to="/playlists">Playlists</Link>
+						<NavLink to="/playlists" style={getActiveStyle}>
+							Playlists
+						</NavLink>
 					</li>
 				</ul>
 			</div>
@@ -75,18 +83,26 @@ export const NavBar = () => {
 			<ul className="nav-bar-secondary">
 				{auth.isAuthVL ? (
 					<div onClick={logoutHandler}>
-						<Link to="/login" className="flex-column ">
+						<NavLink
+							to="/login"
+							style={getActiveStyle}
+							className="flex-column "
+						>
 							<i class="fas fa-user btn-icon"></i>
 
 							<span className="text-xxs pointer">Logout </span>
-						</Link>
+						</NavLink>
 					</div>
 				) : (
 					<div className="flex-column">
-						<Link to="/login" className="flex-column ">
+						<NavLink
+							to="/login"
+							style={getActiveStyle}
+							className="flex-column "
+						>
 							<i class="fas fa-user btn-icon"></i>
 							<span className="text-xxs pointer">Login</span>
-						</Link>
+						</NavLink>
 					</div>
 				)}
 			</ul>

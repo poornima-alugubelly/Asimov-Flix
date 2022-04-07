@@ -1,3 +1,22 @@
-## Video Library Backend
+# Asimov-flix
 
-This folder contains the Mock Backend created for Video Library App. It contains different API end-points and database configuration for building Video Library; so that you can focus on building Frontend.
+Asimov Flix is a sci-fi themed video library built using React, Express , MirageJS, HTML and CSS.
+
+## Features Present
+
+- Authentication
+  - Login
+  - Logout
+  - Signup
+- Video Listing
+- Filter Products by Category
+- Sort videos by date
+- Playlist Management
+- Likes / Dislikes
+- History
+- Watch later
+- Search by video title
+- Single Video Page
+- Notes on a video
+- Loading & Alerts
+- Custom Video View Count

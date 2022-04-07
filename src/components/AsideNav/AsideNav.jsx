@@ -1,37 +1,38 @@
 import "./AsideNav.css";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 export const AsideNav = () => {
-	const navigate = useNavigate();
+	const getActiveStyle = ({ isActive }) => ({
+		color: isActive ? "#01d2ed" : "",
+	});
 	return (
 		<aside class="aside-nav">
 			<ul className="text-center aside-items">
-				<Link to="/explore">
+				<NavLink style={getActiveStyle} to="/">
 					<li className="flex-column   ">
 						<i class="fas fa-compass"></i> Explore
 					</li>
-				</Link>
+				</NavLink>
 
-				<Link to="/playlists">
+				<NavLink style={getActiveStyle} to="/playlists">
 					<li className="flex-column   ">
 						<i class="fas fa-folder-plus"></i>Playlists
 					</li>
-				</Link>
-				<Link to="/likes">
+				</NavLink>
+				<NavLink style={getActiveStyle} to="/likes">
 					<li className="flex-column   ">
 						<i class="fas fa-thumbs-up"></i>Liked
 					</li>
-				</Link>
-				<Link to="/watchLater">
+				</NavLink>
+				<NavLink style={getActiveStyle} to="/watchLater">
 					<li className="flex-column   ">
 						<i class="fas fa-bookmark"></i>Watch Later
 					</li>
-				</Link>
-				<Link to="/history">
+				</NavLink>
+				<NavLink style={getActiveStyle} to="/history">
 					<li className="flex-column   ">
 						<i class="fas fa-history"></i>History
 					</li>
-				</Link>
+				</NavLink>
 			</ul>
 		</aside>
 	);

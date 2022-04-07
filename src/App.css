@@ -9,6 +9,7 @@
 	display: grid;
 	grid-template-columns: min-content 1fr;
 	place-content: center;
+	padding-top:5rem;
 }
 .grid-autofill-layout {
 	display: grid;
