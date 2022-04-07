@@ -1,3 +1,11 @@
+.nav-bar{
+	position:fixed;
+	top:0;
+	right:0;
+	left:0;
+	background-color: var(--bg-color);
+	z-index:5;
+}
 .search-bar {
 	width: 30%;
 	display: flex;

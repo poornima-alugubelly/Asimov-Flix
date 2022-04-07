@@ -14,7 +14,6 @@ export const NavRoutes = () => {
 	return (
 		<Routes>
 			<Route path="/" element={<Explore />} />
-			<Route path="/explore" element={<Explore />} />
 
 			<Route path="explore/:videoId" element={<SingleVideo />} />
 			<Route path="/" element={<ProtectedRoutes />}>
@@ -30,7 +29,9 @@ export const NavRoutes = () => {
 			<Route path="/signup" element={<Signup />} />
 			<Route
 				path="*"
-				element={<h3 className="flex-center">Did not find the page!</h3>}
+				element={
+					<h3 className="flex-center main-container">Did not find the page!</h3>
+				}
 			/>
 		</Routes>
 	);

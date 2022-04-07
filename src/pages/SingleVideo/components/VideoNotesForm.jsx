@@ -30,7 +30,6 @@ export const VideoNotesForm = ({ video, initFormVal, setEditing = null }) => {
 	const submitHandler = (e) => {
 		e.preventDefault();
 		if (setEditing) {
-			console.log(setEditing);
 			setEditing(false);
 			updateNoteServerCall();
 		} else {

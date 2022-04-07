@@ -36,4 +36,14 @@
 		margin: 0 0 3rem 0;
 		padding: 0rem 0rem 0rem 0;
 	}
+	.sort-wrapper{
+		padding-bottom:1.5rem;
+	}
+}
+
+@media (max-width:600px){
+	.explore-subcontainer{
+		margin-left:0;
+		padding: 1rem 0;
+	}
 }
