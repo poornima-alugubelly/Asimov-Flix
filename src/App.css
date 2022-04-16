@@ -51,7 +51,7 @@
 @media (max-width: 1024px) {
 	.main-container {
 		grid-template-columns: 1fr;
-		padding: 4rem;
+		padding: 8rem 4rem;
 	}
 	.grid-autofill-layout {
 		margin: 0;

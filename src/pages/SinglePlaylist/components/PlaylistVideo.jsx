@@ -66,7 +66,8 @@ export const PlaylistVideo = ({ video, playlistTitle, playlist }) => {
 		""
 	);
 
-	const removeVideoHandler = () => {
+	const removeVideoHandler = (e) => {
+		e.stopPropagation();
 		switch (playlistTitle) {
 			case "Likes":
 				removeFromLikesServerCall();
@@ -102,7 +103,7 @@ export const PlaylistVideo = ({ video, playlistTitle, playlist }) => {
 				<i
 					class="fas fa-trash"
 					role="button"
-					onClick={() => removeVideoHandler()}
+					onClick={(e) => removeVideoHandler(e)}
 				></i>
 			</div>
 		</div>
