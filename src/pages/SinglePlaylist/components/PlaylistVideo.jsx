@@ -55,7 +55,7 @@ export const PlaylistVideo = ({ video, playlistTitle, playlist }) => {
 				});
 			}
 		} catch (err) {
-			console.log(err);
+			toast.error("Sorry! There was a problem");
 		}
 	};
 

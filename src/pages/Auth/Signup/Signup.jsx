@@ -13,7 +13,7 @@ export const Signup = () => {
 	const { setAuth } = useAuth();
 	const navigate = useNavigate();
 	const [pwdToggle, pwdToggler] = usePwdToggler();
-	const [error, setError] = useState("");
+
 	const signUpHandler = async (e, email, password, firstName, lastName) => {
 		e.preventDefault();
 		try {
@@ -25,7 +25,7 @@ export const Signup = () => {
 				navigate("/explore");
 			}
 		} catch (err) {
-			console.log("err", err);
+			toast.error("Sorry! There was a problem");
 		}
 	};
 	return (
@@ -57,7 +57,6 @@ export const Signup = () => {
 								setFormVal((prev) => ({ ...prev, email: e.target.value }))
 							}
 						/>
-						<span class="form-error-msg">Enter valid Email</span>
 					</div>
 
 					<div>
@@ -108,7 +107,6 @@ export const Signup = () => {
 								setFormVal((prev) => ({ ...prev, firstName: e.target.value }))
 							}
 						/>
-						<span class="form-error-msg">Enter first name</span>
 					</div>
 					<div>
 						<label for="last-name"> Last Name </label>
@@ -123,7 +121,6 @@ export const Signup = () => {
 								setFormVal((prev) => ({ ...prev, lastName: e.target.value }))
 							}
 						/>
-						<span class="form-error-msg">Enter last name</span>
 					</div>
 					<div>
 						<label for="remember-me" class="flex-row gap-xs pointer">
@@ -137,7 +134,6 @@ export const Signup = () => {
 							I accept all Terms & Conditions
 						</label>
 					</div>
-					{error && <span className="text-red">{error}</span>}
 
 					<button class="btn btn-primary-solid">Sign Up</button>
 					<a

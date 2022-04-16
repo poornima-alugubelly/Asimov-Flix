@@ -27,7 +27,7 @@ export const Login = () => {
 				navigate(from, { replace: true });
 			}
 		} catch (err) {
-			toast.error("There was an error logging in please try again");
+			toast.error(err.response.data.errors[0]);
 		}
 	};
 
