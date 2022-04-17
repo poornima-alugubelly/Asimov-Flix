@@ -32,7 +32,7 @@ export const useCustomPlaylist = (
 				});
 			}
 		} catch (err) {
-			console.log(err);
+			toast.error("Sorry! There was a problem");
 		}
 	};
 	return [customPlaylistUpdateCall, updatingPlaylist];

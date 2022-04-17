@@ -8,7 +8,7 @@ import { v4 as uuid } from "uuid";
 export const videos = [
 	{
 		_id: uuid(),
-		title: "DUNE main trailer",
+		title: "DUNE | official trailer | world wide release",
 		creator: "Warner Brothers",
 		thumbnail: "https://i.ytimg.com/vi/8g18jFHCLXk/mqdefault.jpg",
 		src: "https://www.youtube.com/embed/8g18jFHCLXk",

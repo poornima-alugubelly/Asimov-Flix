@@ -48,9 +48,7 @@
 }
 
 @media (max-width: 748px) {
-	.main-container {
-		padding: 4rem 1rem;
-	}
+
 	.video-player {
 		height: 15rem;
 	}

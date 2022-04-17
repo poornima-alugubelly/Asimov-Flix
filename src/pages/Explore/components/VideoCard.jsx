@@ -76,7 +76,7 @@ export const VideoCard = ({ video }) => {
 				});
 			}
 		} catch (err) {
-			console.log(err);
+			toast.error("Sorry! There was a problem");
 		}
 	};
 
