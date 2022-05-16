@@ -1,6 +1,7 @@
 import { AsideNav } from "../../components/AsideNav/AsideNav";
 import "./SingleVideo.css";
-import { useState } from "react";
+import ReactPlayer from "react-player/youtube";
+import { useState, useRef } from "react";
 import { PlaylistModal } from "../../components/PlaylistModal/PlaylistModal";
 import { useNavigate, useParams } from "react-router-dom";
 import { useVideoListing } from "../../context/VideosListingContext";
@@ -21,6 +22,7 @@ export const SingleVideo = () => {
 	const {
 		videoListingState: { data },
 	} = useVideoListing();
+	const videoRef = useRef();
 	const [opened, setOpened] = useState(false);
 	const { SET_LIKES, SET_WATCHLATER, SET_NOTES } = actionTypes;
 	const { videoId } = useParams();
@@ -74,19 +76,15 @@ export const SingleVideo = () => {
 	return (
 		<div className="main-container">
 			<AsideNav />
-
 			<div className="grid-70-30">
 				<div>
-					<iframe
+					<ReactPlayer
+						url={video?.src}
+						controls
 						width="100%"
-						src={video?.src}
-						title="YouTube video player"
-						frameborder="0"
-						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-						allowfullscreen
-						loading="lazy"
-						className="video-player"
-					></iframe>
+						playing={true}
+						ref={videoRef}
+					/>
 					<div className="video-description">
 						<h2>{video?.title}</h2>
 						<span>
@@ -152,10 +150,7 @@ export const SingleVideo = () => {
 
 				<div className="note-section padding-s flex-column  gap-s">
 					<h3>Notes</h3>
-					<VideoNotesForm
-						video={video}
-						initFormVal={{ title: "", description: "" }}
-					/>
+					<VideoNotesForm videoRef={videoRef} video={video} />
 					<VideoNotesList vidNotesList={vidNotesList} video={video} />
 				</div>
 			</div>

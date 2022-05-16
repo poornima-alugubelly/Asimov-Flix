@@ -52,7 +52,7 @@ export const NavBar = () => {
 					placeholder="Enter category or product name..."
 					value={searchText}
 					onChange={(e) => {
-						navigate("/explore");
+						navigate("/");
 						setTyping(true);
 						videoListingDispatch({
 							type: SEARCH,

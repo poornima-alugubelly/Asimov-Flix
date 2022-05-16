@@ -19,6 +19,7 @@ import {
 import { addToHistoryService } from "../../../services/history-services";
 import { getCustomViewCount } from "../../../helpers/getCustomViewCount";
 import { updateVideoCountService } from "../../../services/updateVideoCountService";
+
 export const VideoCard = ({ video }) => {
 	const navigate = useNavigate();
 	const {
@@ -101,7 +102,9 @@ export const VideoCard = ({ video }) => {
 					className="img-container"
 					onClick={async () => {
 						updateVideoCountServerCall();
-						addToHistoryServerCall();
+						{
+							auth.isAuth && addToHistoryServerCall();
+						}
 						navigate(`/explore/${video.id}`);
 					}}
 				>
