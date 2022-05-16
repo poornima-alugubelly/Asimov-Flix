@@ -21,7 +21,7 @@ export const usePlaylist = (serviceFunction, video, action, msg) => {
 				});
 			}
 		} catch (err) {
-			toast.error("Sorry! There was a problem");
+			console.log(err);
 		}
 	};
 	return [playlistUpdateCall, updatingPlaylist];

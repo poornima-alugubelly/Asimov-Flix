@@ -1,7 +1,7 @@
 import { AsideNav } from "../../components/AsideNav/AsideNav";
 import "./SingleVideo.css";
 import ReactPlayer from "react-player/youtube";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { PlaylistModal } from "../../components/PlaylistModal/PlaylistModal";
 import { useNavigate, useParams } from "react-router-dom";
 import { useVideoListing } from "../../context/VideosListingContext";
@@ -10,6 +10,8 @@ import { usePlaylist } from "../../hooks/usePlaylist";
 import { checkInPlaylist } from "../../helpers/checkInPlaylist";
 import { useUserData } from "../../context/UserDataContext";
 import { removeLikesService } from "../../services/likes-services";
+import { addToHistoryService } from "../../services/history-services";
+import { updateVideoCountService } from "../../services/updateVideoCountService";
 import { useAuth } from "../../context/AuthContext";
 import {
 	addToWatchLaterService,
@@ -18,13 +20,15 @@ import {
 import { actionTypes } from "../../constants/actionTypes";
 import { VideoNotesList } from "./components/VideoNotesList/VideoNotesList";
 import { VideoNotesForm } from "./components/VideoNotesForm";
+
 export const SingleVideo = () => {
 	const {
 		videoListingState: { data },
+		videoListingDispatch,
 	} = useVideoListing();
 	const videoRef = useRef();
 	const [opened, setOpened] = useState(false);
-	const { SET_LIKES, SET_WATCHLATER, SET_NOTES } = actionTypes;
+	const { SET_LIKES, SET_WATCHLATER, SET_VIDEOS, SET_HISTORY } = actionTypes;
 	const { videoId } = useParams();
 	const video = data?.find((video) => video.id === videoId);
 	const {
@@ -65,6 +69,28 @@ export const SingleVideo = () => {
 		"Removed from Watch Later"
 	);
 
+	const [addToHistoryServerCall] = usePlaylist(
+		addToHistoryService,
+		video,
+		SET_HISTORY,
+		""
+	);
+	const updateVideoCountServerCall = async () => {
+		try {
+			const res = await updateVideoCountService(video);
+			if (res.status === 200) {
+				const videos = res.data.videos;
+				console.log("view", videos);
+				videoListingDispatch({
+					type: SET_VIDEOS,
+					payload: { videos },
+				});
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	const likeHandler = () =>
 		inLikedPlaylist ? removeFromLikesServerCall() : addToLikesServerCall();
 	const watchLaterHandler = () =>
@@ -72,6 +98,13 @@ export const SingleVideo = () => {
 			? removeFromWatchLaterServerCall()
 			: addToWatchLaterServerCall();
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (isAuthVL && video) {
+			addToHistoryServerCall();
+			updateVideoCountServerCall();
+		}
+	}, []);
 
 	return (
 		<div className="main-container">

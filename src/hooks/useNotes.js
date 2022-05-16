@@ -21,7 +21,7 @@ export const useNotes = (serviceFunction, video, msg, action, note) => {
 				});
 			}
 		} catch (err) {
-			toast.error("Sorry! There was a problem");
+			console.log(err);
 		}
 	};
 	return [notesUpdateCall, updatingNotes];
