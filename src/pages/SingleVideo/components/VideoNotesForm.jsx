@@ -8,13 +8,9 @@ import {
 export const VideoNotesForm = ({
 	video,
 	videoRef,
-
 	setEditing = null,
+	initFormVal,
 }) => {
-	const initFormVal = {
-		title: "",
-		description: "",
-	};
 	const playingTime = videoRef?.current?.getCurrentTime();
 	const { SET_NOTES } = actionTypes;
 	const [formVal, setFormVal] = useState(initFormVal);

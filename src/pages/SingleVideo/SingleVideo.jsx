@@ -150,7 +150,14 @@ export const SingleVideo = () => {
 
 				<div className="note-section padding-s flex-column  gap-s">
 					<h3>Notes</h3>
-					<VideoNotesForm videoRef={videoRef} video={video} />
+					<VideoNotesForm
+						videoRef={videoRef}
+						video={video}
+						initFormVal={{
+							title: "",
+							description: "",
+						}}
+					/>
 					<VideoNotesList vidNotesList={vidNotesList} video={video} />
 				</div>
 			</div>
