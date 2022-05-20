@@ -22,7 +22,7 @@ export const Signup = () => {
 				localStorage.setItem("tokenVL", res.data.encodedToken);
 				localStorage.setItem("isAuthVL", true);
 				setAuth({ tokenVL: res.data.encodedToken, isAuthVL: true });
-				navigate("/explore");
+				navigate("/");
 			}
 		} catch (err) {
 			toast.error("Sorry! There was a problem");

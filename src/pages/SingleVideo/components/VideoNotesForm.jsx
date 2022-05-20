@@ -5,15 +5,22 @@ import {
 	addToNotesService,
 	updateNoteService,
 } from "../../../services/notes-service";
-export const VideoNotesForm = ({ video, initFormVal, setEditing = null }) => {
+export const VideoNotesForm = ({
+	video,
+	videoRef,
+	setEditing = null,
+	initFormVal,
+}) => {
+	const playingTime = videoRef?.current?.getCurrentTime();
 	const { SET_NOTES } = actionTypes;
 	const [formVal, setFormVal] = useState(initFormVal);
+
 	const [addToNotesServerCall, addingNotes] = useNotes(
 		addToNotesService,
 		video,
 		"Notes updated",
 		SET_NOTES,
-		formVal
+		{ ...formVal, playingTime }
 	);
 	const [updateNoteServerCall, updatingNotes] = useNotes(
 		updateNoteService,
@@ -34,6 +41,7 @@ export const VideoNotesForm = ({ video, initFormVal, setEditing = null }) => {
 			updateNoteServerCall();
 		} else {
 			addToNotesServerCall();
+			setFormVal(initFormVal);
 		}
 	};
 
@@ -63,7 +71,13 @@ export const VideoNotesForm = ({ video, initFormVal, setEditing = null }) => {
 				>
 					Save
 				</button>
-				<button className="btn btn-primary-outline">Discard</button>
+				<button
+					className="btn btn-primary-outline"
+					type="button"
+					onClick={() => setFormVal(initFormVal)}
+				>
+					Discard
+				</button>
 			</div>
 		</form>
 	);

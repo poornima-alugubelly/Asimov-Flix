@@ -10,13 +10,14 @@ import { addToHistoryService } from "../../../services/history-services";
 import { updateVideoCountService } from "../../../services/updateVideoCountService";
 import { actionTypes } from "../../../constants/actionTypes";
 import { useVideoListing } from "../../../context/VideosListingContext";
+import { useAuth } from "../../../context/AuthContext";
 
 export const PlaylistVideo = ({ video, playlistTitle, playlist }) => {
 	const navigate = useNavigate();
 	const { videoListingDispatch } = useVideoListing();
 	const { SET_LIKES, SET_PLAYLIST, SET_WATCHLATER, SET_HISTORY, SET_VIDEOS } =
 		actionTypes;
-
+	const { isAuth } = useAuth();
 	const [removeFromLikesServerCall] = usePlaylist(
 		removeLikesService,
 		video,
@@ -87,7 +88,9 @@ export const PlaylistVideo = ({ video, playlistTitle, playlist }) => {
 			class="card playlist-video padding-s pointer"
 			onClick={async () => {
 				updateVideoCountServerCall();
-				addToHistoryServerCall();
+				{
+					isAuth && addToHistoryServerCall();
+				}
 				navigate(`/explore/${video.id}`);
 			}}
 		>

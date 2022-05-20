@@ -16,9 +16,8 @@ import {
 	addToWatchLaterService,
 	removeWatchLaterService,
 } from "../../../services/watchlist-services";
-import { addToHistoryService } from "../../../services/history-services";
 import { getCustomViewCount } from "../../../helpers/getCustomViewCount";
-import { updateVideoCountService } from "../../../services/updateVideoCountService";
+
 export const VideoCard = ({ video }) => {
 	const navigate = useNavigate();
 	const {
@@ -28,7 +27,7 @@ export const VideoCard = ({ video }) => {
 	const [openedModal, setOpenedModal] = useState(false);
 	const [openOptions, setOpenOptions] = useState(false);
 	const { auth } = useAuth();
-	const { SET_LIKES, SET_WATCHLATER, SET_HISTORY, SET_VIDEOS } = actionTypes;
+	const { SET_LIKES, SET_WATCHLATER, SET_VIDEOS } = actionTypes;
 	const inLikedPlaylist = checkInPlaylist(video, likesPlaylist);
 	const inWatchLaterPlaylist = checkInPlaylist(video, watchLaterPlaylist);
 
@@ -58,28 +57,6 @@ export const VideoCard = ({ video }) => {
 		"Removed from Watch Later"
 	);
 
-	const [addToHistoryServerCall] = usePlaylist(
-		addToHistoryService,
-		video,
-		SET_HISTORY,
-		""
-	);
-
-	const updateVideoCountServerCall = async () => {
-		try {
-			const res = await updateVideoCountService(video);
-			if (res.status === 200) {
-				const videos = res.data.videos;
-				videoListingDispatch({
-					type: SET_VIDEOS,
-					payload: { videos },
-				});
-			}
-		} catch (err) {
-			toast.error("Sorry! There was a problem");
-		}
-	};
-
 	const likeHandler = () =>
 		inLikedPlaylist ? removeFromLikesServerCall() : addToLikesServerCall();
 
@@ -99,11 +76,7 @@ export const VideoCard = ({ video }) => {
 				/>
 				<div
 					className="img-container"
-					onClick={async () => {
-						updateVideoCountServerCall();
-						addToHistoryServerCall();
-						navigate(`/explore/${video.id}`);
-					}}
+					onClick={() => navigate(`/explore/${video.id}`)}
 				>
 					<img src={video.thumbnail} className="img-responsive" />
 				</div>

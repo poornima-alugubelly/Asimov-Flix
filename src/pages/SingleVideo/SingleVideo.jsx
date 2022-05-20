@@ -1,6 +1,7 @@
 import { AsideNav } from "../../components/AsideNav/AsideNav";
 import "./SingleVideo.css";
-import { useState } from "react";
+import ReactPlayer from "react-player/youtube";
+import { useState, useRef, useEffect } from "react";
 import { PlaylistModal } from "../../components/PlaylistModal/PlaylistModal";
 import { useNavigate, useParams } from "react-router-dom";
 import { useVideoListing } from "../../context/VideosListingContext";
@@ -9,6 +10,8 @@ import { usePlaylist } from "../../hooks/usePlaylist";
 import { checkInPlaylist } from "../../helpers/checkInPlaylist";
 import { useUserData } from "../../context/UserDataContext";
 import { removeLikesService } from "../../services/likes-services";
+import { addToHistoryService } from "../../services/history-services";
+import { updateVideoCountService } from "../../services/updateVideoCountService";
 import { useAuth } from "../../context/AuthContext";
 import {
 	addToWatchLaterService,
@@ -17,12 +20,15 @@ import {
 import { actionTypes } from "../../constants/actionTypes";
 import { VideoNotesList } from "./components/VideoNotesList/VideoNotesList";
 import { VideoNotesForm } from "./components/VideoNotesForm";
+
 export const SingleVideo = () => {
 	const {
 		videoListingState: { data },
+		videoListingDispatch,
 	} = useVideoListing();
+	const videoRef = useRef();
 	const [opened, setOpened] = useState(false);
-	const { SET_LIKES, SET_WATCHLATER, SET_NOTES } = actionTypes;
+	const { SET_LIKES, SET_WATCHLATER, SET_VIDEOS, SET_HISTORY } = actionTypes;
 	const { videoId } = useParams();
 	const video = data?.find((video) => video.id === videoId);
 	const {
@@ -63,6 +69,28 @@ export const SingleVideo = () => {
 		"Removed from Watch Later"
 	);
 
+	const [addToHistoryServerCall] = usePlaylist(
+		addToHistoryService,
+		video,
+		SET_HISTORY,
+		""
+	);
+	const updateVideoCountServerCall = async () => {
+		try {
+			const res = await updateVideoCountService(video);
+			if (res.status === 200) {
+				const videos = res.data.videos;
+				console.log("view", videos);
+				videoListingDispatch({
+					type: SET_VIDEOS,
+					payload: { videos },
+				});
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	const likeHandler = () =>
 		inLikedPlaylist ? removeFromLikesServerCall() : addToLikesServerCall();
 	const watchLaterHandler = () =>
@@ -71,22 +99,25 @@ export const SingleVideo = () => {
 			: addToWatchLaterServerCall();
 	const navigate = useNavigate();
 
+	useEffect(() => {
+		if (isAuthVL && video) {
+			addToHistoryServerCall();
+			updateVideoCountServerCall();
+		}
+	}, []);
+
 	return (
 		<div className="main-container">
 			<AsideNav />
-
 			<div className="grid-70-30">
 				<div>
-					<iframe
+					<ReactPlayer
+						url={video?.src}
+						controls
 						width="100%"
-						src={video?.src}
-						title="YouTube video player"
-						frameborder="0"
-						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-						allowfullscreen
-						loading="lazy"
-						className="video-player"
-					></iframe>
+						playing={true}
+						ref={videoRef}
+					/>
 					<div className="video-description">
 						<h2>{video?.title}</h2>
 						<span>
@@ -153,8 +184,12 @@ export const SingleVideo = () => {
 				<div className="note-section padding-s flex-column  gap-s">
 					<h3>Notes</h3>
 					<VideoNotesForm
+						videoRef={videoRef}
 						video={video}
-						initFormVal={{ title: "", description: "" }}
+						initFormVal={{
+							title: "",
+							description: "",
+						}}
 					/>
 					<VideoNotesList vidNotesList={vidNotesList} video={video} />
 				</div>

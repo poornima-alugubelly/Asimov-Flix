@@ -40,6 +40,7 @@ export const addItemToNotesHandler = function (schema, request) {
 			(currNote) => currNote._id === video._id
 		);
 		let updatedNotes = "";
+		console.log("note", note);
 		if (videoNotes) {
 			updatedNotes = user.notes.map((currNote) => {
 				if (currNote._id === video._id)
@@ -50,6 +51,7 @@ export const addItemToNotesHandler = function (schema, request) {
 					});
 				return currNote;
 			});
+			console.log("updated", updatedNotes);
 
 			this.db.users.update({ _id: user._id }, { notes: updatedNotes });
 		} else
